@@ -4,6 +4,7 @@ set global ui_options ncurses_enable_mouse=false:ncurses_assistant=cat:ncurses_s
 
 set global indentwidth 4
 set global tabstop 4
+set global aligntab false
 set global scrolloff 10,10
 
 
@@ -15,25 +16,25 @@ hook global WinCreate .* %{
 }
 
 hook global WinSetOption filetype=go %{
-	set window formatcmd 'goimports'
-	set window lintcmd 'golint'
-	#set window makecmd 'go build'
-	lint-enable
-	go-enable-autocomplete
-	hook buffer BufWritePre .* %{ format }
-	hook buffer BufWritePost .* lint
+    set window formatcmd 'goimports'
+    set window lintcmd 'golint'
+    #set window makecmd 'go build'
+    lint-enable
+    go-enable-autocomplete
+    hook buffer BufWritePre .* %{ format }
+    hook buffer BufWritePost .* lint
 }
 
 hook global WinSetOption filetype=sh %{
-	#set window formatcmd 'shfmt -i 4'
-	set window lintcmd 'shellcheck -fgcc -Cnever'
-	lint-enable
-	#hook buffer BufWritePre .* %{ format }
-	hook buffer BufWritePost .* lint
+    #set window formatcmd 'shfmt -i 4'
+    set window lintcmd 'shellcheck -fgcc -Cnever'
+    lint-enable
+    #hook buffer BufWritePre .* %{ format }
+    hook buffer BufWritePost .* lint
 }
 
 hook global WinSetOption filetype=python %{
-	set window formatcmd 'autopep8 -'
-	set window lintcmd 'flake8 --format="%(path)s:%(row)d:%(col)d: error: %(text)s"'
-	lint-enable
+    set window formatcmd 'autopep8 -'
+    set window lintcmd 'flake8 --format="%(path)s:%(row)d:%(col)d: error: %(text)s"'
+    lint-enable
 }

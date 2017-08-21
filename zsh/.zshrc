@@ -22,34 +22,34 @@ tty_emos=(🐈 🐝 🌸 🌟 🌈 💖 🎀 👻 😱 )
 ps_emo=$tty_emos[$(tty |tr -d a-z/)]
 
 has_dockerfile() {
-	[[ -e Dockerfile ]] && echo "🐳 "
+    [[ -e Dockerfile ]] && echo "🐳 "
 }
 
 has_makefile() {
-	[[ -e Makefile ]] && echo "🐐 "
+    [[ -e Makefile ]] && echo "🐐 "
 }
 
 is_github() {
-	if git config --get remote.origin.url |grep github.com &>/dev/null
-	then
-		echo " "
-	fi
+    if git config --get remote.origin.url |grep github.com &>/dev/null
+    then
+        echo " "
+    fi
 }
 
 git_branch() {
-	if git rev-parse --git-dir &>/dev/null
-	then
-		color="red"
-		git status |grep "working tree clean" &>/dev/null && color="green"
-		echo "%F{$color}$(git branch |grep \*|tr \*  ) %F{white}"
-	fi
+    if git rev-parse --git-dir &>/dev/null
+    then
+        color="red"
+        git status |grep "working tree clean" &>/dev/null && color="green"
+        echo "%F{$color}$(git branch |grep \*|tr \*  ) %F{white}"
+    fi
 }
 
 #git_time_since_fetch() {
-	#if [[ -e .git/FETCH_HEAD ]]
-	#then
-		#seconds=$(( $(date +%s) - $(stat -f %m .git/FETCH_HEAD) ))
-	#fi
+    #if [[ -e .git/FETCH_HEAD ]]
+    #then
+        #seconds=$(( $(date +%s) - $(stat -f %m .git/FETCH_HEAD) ))
+    #fi
 #}
 
 export PS1='%(0?;;💔 [%?])$(is_github)$(has_dockerfile)$(has_makefile)%~ $(git_branch)$ps_emo  '
@@ -57,10 +57,10 @@ export PS2='$ps_emo  '
 
 # ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
 
-export werkspace=("~/go/src/dedelala" "~/go/src/github.com/MYOB-Technology"	"~/src/github.com/MYOB-Technology" "~/src/github.com/dedelala" "~/src/dedelala")
+export werkspace=("~/go/src/dedelala" "~/go/src/github.com/MYOB-Technology"    "~/src/github.com/MYOB-Technology" "~/src/github.com/dedelala" "~/src/dedelala")
 
 werkspace() {
-	echo "
+    echo "
                        _                             
     __      _____ _ __| | _____ _ __   __ _  ___ ___ 
     \ \ /\ / / _ \ '__| |/ / __| '_ \ / _\` |/ __/ _ \ 
@@ -68,13 +68,13 @@ werkspace() {
       \_/\_/ \___|_|  |_|\_\___/ .__/ \__,_|\___\___| 
                                |_|                    "
 
-	select d in $werkspace
-	do
-		echo
-		echo Werking at $d
-		eval "cd $d" && ls -Fa
-		break
-	done
+    select d in $werkspace
+    do
+        echo
+        echo Werking at $d
+        eval "cd $d" && ls -Fa
+        break
+    done
 
 }
 
@@ -91,56 +91,56 @@ werk() {
 
     for d in $werkspace
     do
-    	for g in $(eval "find $d -name .git -type d")
-		do
-    		werks=($werks ${$(dirname $g)/$HOME/"~"})
-    	done
+        for g in $(eval "find $d -name .git -type d")
+        do
+            werks=($werks ${$(dirname $g)/$HOME/"~"})
+        done
     done
 
     select w in $werks
     do
-    	echo
-    	echo Werking on $(basename $w).
-    	eval "cd $w" && {
-    		ls -Fa
-    		echo
-    		git status
-		}
-    	break
+        echo
+        echo Werking on $(basename $w).
+        eval "cd $w" && {
+            ls -Fa
+            echo
+            git status
+        }
+        break
     done
 }
 
 kcname() {
-	s=$1
-	shift
-	n="$@[$(( $RANDOM % ${#@[@]} + 1 ))]"
-	ps |grep -E "kak.+$n.+$s" |grep -v grep && n=$(kcname $s ${@/$n})
-	echo $n
+    s=$1
+    shift
+    n="$@[$(( $RANDOM % ${#@[@]} + 1 ))]"
+    ps |grep -E "kak.+$n.+$s" |grep -v grep && n=$(kcname $s ${@/$n})
+    echo $n
 }
 
 k() {
-	active=($(kak -l))
-	names=(😊_ 😇_ 😎_ 😱_ 👻_ 👽_ 😸_)
+    active=($(kak -l))
+    names=(😊_ 😇_ 😎_ 😱_ 👻_ 👽_ 😸_)
 
-	if [[ $# -eq 0 ]]
-	then
-    	select s in $active
-    	do
-			n=$(kcname $s $names)
-    		kak -e "rename-client $n; set global toolsclient $n; set global docsclient $n" -c "$s"
-    		return
-    	done
-	fi
+    if [[ $# -eq 0 ]]
+    then
+        select s in $active
+        do
+            n=$(kcname $s $names)
+            kak -e "rename-client $n; set global toolsclient $n; set global docsclient $n" -c "$s"
+            return
+        done
+    fi
 
-	pickles=("pickle" "gherkin" "kimchi" "cornichon" "sauerkraut" "tsukemono")
-	for s in $active
-	do
-		pickles=(${pickles/$s})
-	done
+    pickles=("pickle" "gherkin" "kimchi" "cornichon" "sauerkraut" "tsukemono")
+    for s in $active
+    do
+        pickles=(${pickles/$s})
+    done
 
 
-	s="$pickles[$(( $RANDOM % ${#pickles[@]} + 1 ))]"
-	n=$(kcname $s $names)
-	kak -e "rename-client $n; set global jumpclient $n" -s "$s" "$@"
-	return
+    s="$pickles[$(( $RANDOM % ${#pickles[@]} + 1 ))]"
+    n=$(kcname $s $names)
+    kak -e "rename-client $n; set global jumpclient $n" -s "$s" "$@"
+    return
 }
