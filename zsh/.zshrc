@@ -16,6 +16,7 @@ export EDITOR=kak
 export AWS_REGION="ap-southeast-2"
 export AWS_DEFAULT_REGION="$AWS_REGION"
 
+export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
 alias ls="ls -FG"
 
 tty_emos=(🐈 🐝 🌸 🌟 🌈 💖 🎀 👻 😱 )
