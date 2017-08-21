@@ -25,19 +25,23 @@ has_dockerfile() {
 	[[ -e Dockerfile ]] && echo "🐳 "
 }
 
-has_git() {
-	if git rev-parse --git-dir &> /dev/null
+has_makefile() {
+	[[ -e Makefile ]] && echo "🐐 "
+}
+
+is_github() {
+	if git config --get remote.origin.url |grep github.com &>/dev/null
 	then
-		echo "🐙 "
+		echo " "
 	fi
 }
 
 git_branch() {
-	if git rev-parse --git-dir &> /dev/null
+	if git rev-parse --git-dir &>/dev/null
 	then
 		color="red"
 		git status |grep "working tree clean" &>/dev/null && color="green"
-		echo "%F{$color}$(git branch |grep \*) %F{white}"
+		echo "%F{$color}$(git branch |grep \*|tr \*  ) %F{white}"
 	fi
 }
 
@@ -48,7 +52,7 @@ git_branch() {
 	#fi
 #}
 
-export PS1='%(0?;;💔 [%?])$(has_git)$(has_dockerfile)%~ $(git_branch)$ps_emo  '
+export PS1='%(0?;;💔 [%?])$(is_github)$(has_dockerfile)$(has_makefile)%~ $(git_branch)$ps_emo  '
 export PS2='$ps_emo  '
 
 # ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
