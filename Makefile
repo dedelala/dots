@@ -1,3 +1,6 @@
+.PHONY: all
+all: vim zsh kakoune
+
 
 ~/.vimrc: vim/.vimrc
 	cp vim/.vimrc ~/
@@ -20,3 +23,4 @@ zsh: ~/.zshrc
 
 .PHONY: kakoune
 kakoune: ~/.config/kak
+
