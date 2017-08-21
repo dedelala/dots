@@ -1,6 +1,6 @@
 
 ~/.vimrc: vim/.vimrc
-	cp vim/.zshrc ~/.vimrc
+	cp vim/.vimrc ~/
 
 .PHONY: vim
 vim: ~/.vimrc
