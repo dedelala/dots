@@ -37,4 +37,11 @@ hook global WinSetOption filetype=python %{
     set window formatcmd 'autopep8 -'
     set window lintcmd 'flake8 --format="%(path)s:%(row)d:%(col)d: error: %(text)s"'
     lint-enable
+    hook buffer BufWritePost .* lint
+}
+
+hook global WinSetOption filetype=yaml %{
+    set window lintcmd 'yamllint -d ~/.yamllint.yml -f parsable "$kak_buffile"'
+    lint-enable
+    hook buffer BufWritePost .* lint
 }
