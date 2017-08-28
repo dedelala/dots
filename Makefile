@@ -1,26 +1,29 @@
 .PHONY: all
-all: vim zsh kakoune
+all: v z k
 
+
+.PHONY: v
+v: ~/.vimrc
 
 ~/.vimrc: vim/.vimrc
-	cp vim/.vimrc ~/
+	cp $< $@
 
-.PHONY: vim
-vim: ~/.vimrc
 
+.PHONY: z
+z: ~/.zshrc
 
 ~/.zshrc: zsh/.zshrc
-	cp zsh/.zshrc ~/
-
-.PHONY: zsh
-zsh: ~/.zshrc
+	cp $< $@
 
 
-~/.config/kak: kak
-	[[ -e ~/.config ]] || mkdir ~/.config
-	rm -rf ~/.config/kak
-	cp -R kak ~/.config/
+.PHONY: k
+k: ~/.config/kak/kakrc ~/.config/kak/colors/dedelala.kak
 
-.PHONY: kakoune
-kakoune: ~/.config/kak
+~/.config/kak/kakrc: kak/kakrc
+	[[ -e `dirname $@` ]] || mkdir -p `dirname $@`
+	cp $< $@
+
+~/.config/kak/colors/dedelala.kak: kak/colors/dedelala.kak
+	[[ -e `dirname $@` ]] || mkdir -p `dirname $@`
+	cp $< $@
 
