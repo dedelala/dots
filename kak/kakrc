@@ -41,6 +41,8 @@ hook global WinSetOption filetype=python %{
 }
 
 hook global WinSetOption filetype=yaml %{
+    set global indentwidth 2
+    set global tabstop 2
     set window lintcmd 'yamllint -d ~/.yamllint.yml -f parsable "$kak_buffile"'
     lint-enable
     hook buffer BufWritePost .* lint
