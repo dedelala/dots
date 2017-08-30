@@ -5,25 +5,25 @@ all: v z k
 .PHONY: v
 v: ~/.vimrc
 
-~/.vimrc: vim/.vimrc
+~/.vimrc: vimrc
 	cp $< $@
 
 
 .PHONY: z
 z: ~/.zshrc
 
-~/.zshrc: zsh/.zshrc
+~/.zshrc: zshrc
 	cp $< $@
 
 
 .PHONY: k
 k: ~/.config/kak/kakrc ~/.config/kak/colors/dedelala.kak
 
-~/.config/kak/kakrc: kak/kakrc
+~/.config/kak/kakrc: kakrc
 	[[ -e `dirname $@` ]] || mkdir -p `dirname $@`
 	cp $< $@
 
-~/.config/kak/colors/dedelala.kak: kak/colors/dedelala.kak
+~/.config/kak/colors/dedelala.kak: dedelala.kak
 	[[ -e `dirname $@` ]] || mkdir -p `dirname $@`
 	cp $< $@
 
