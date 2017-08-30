@@ -12,7 +12,7 @@ v: ~/.vimrc
 .PHONY: z
 z: ~/.zshrc
 
-~/.zshrc: zshrc
+~/.zshrc: zshrc.zsh
 	cp $< $@
 
 

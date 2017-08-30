@@ -3,7 +3,8 @@ setopt extended_glob
 setopt auto_pushd
 setopt pushd_minus
 setopt pushd_ignore_dups
-setopt prompt_subst
+setopt prompt_subst 
+setopt auto_menu # use menu completion
 
 autoload -U compinit
 compinit
