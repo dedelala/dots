@@ -20,9 +20,11 @@ setopt pushd_minus # +/- swapped on dir stack
 setopt rc_expand_param # gooder string/array exansions
 # todo job control
 
-HISTSIZE=10000
-SAVEHIST=10000
-HISTFILE=~/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+export HISTFILE=~/.zsh_history
+
+export WORDCHARS='*?_-.[]~/&;!#$%^(){}<>' # characters considered to be part of a word (zle)
 
 autoload -U compinit
 compinit
