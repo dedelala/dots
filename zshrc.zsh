@@ -20,6 +20,9 @@ setopt pushd_minus # +/- swapped on dir stack
 setopt rc_expand_param # gooder string/array exansions
 # todo job control
 
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
 
 autoload -U compinit
 compinit
