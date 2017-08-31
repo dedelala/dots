@@ -41,6 +41,8 @@ source /usr/local/bin/aws_zsh_completer.sh
 export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
 alias ls="ls -FG"
 
+[[ -e =gtar ]] &>/dev/null && alias tar="gtar"
+
 tty_emos=(🐈 🐝 🌸 🌟 🌈 💖 🎀 👻 😱 )
 ps_emo=$tty_emos[$(tty |tr -d a-z/)]
 
