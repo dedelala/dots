@@ -39,7 +39,7 @@ export AWS_DEFAULT_REGION="$AWS_REGION"
 source /usr/local/bin/aws_zsh_completer.sh
 
 export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
-alias ls="ls -FG"
+alias ls="ls -FGh"
 
 [[ -e =gtar ]] &>/dev/null && alias tar="gtar"
 
