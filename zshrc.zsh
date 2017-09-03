@@ -41,6 +41,16 @@ source /usr/local/bin/aws_zsh_completer.sh
 export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
 alias ls="ls -FGh"
 
+alias f="man"
+
+alias g="git"
+alias a="git add"
+alias c="git commit -m"
+alias l="git log --graph"
+alias s="git status"
+
+alias -g \>X=">/dev/null"
+
 [[ -e =gtar ]] &>/dev/null && alias tar="gtar"
 
 tty_emos=(🐈 🐝 🌸 🌟 🌈 💖 🎀 👻 😱 )
