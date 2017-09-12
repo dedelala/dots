@@ -13,23 +13,19 @@ hook global WinCreate .* %{
     addhl number_lines -relative -hlcursor -separator "  "
     addhl column 101 white,rgb:222200
     addhl dynregex \h+$ 0:black,rgb:000099
+    map window user , :buffer-previous<ret>
 }
 
 hook global WinSetOption filetype=go %{
-    set window formatcmd 'goimports'
-    set window lintcmd 'golint'
-    #set window makecmd 'go build'
-    lint-enable
     go-enable-autocomplete
-    hook buffer BufWritePre .* %{ format }
-    hook buffer BufWritePost .* lint
+    hook buffer BufWritePre .* %{ go-format -use-goimports }
+    map window user . :go-doc-info<ret>
+    map window user / :go-jump<ret>
 }
 
 hook global WinSetOption filetype=sh %{
-    #set window formatcmd 'shfmt -i 4'
     set window lintcmd 'shellcheck -fgcc -Cnever'
     lint-enable
-    #hook buffer BufWritePre .* %{ format }
     hook buffer BufWritePost .* lint
 }
 
