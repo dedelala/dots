@@ -29,6 +29,7 @@ export WORDCHARS='*?_-.[]~/&;!#$%^(){}<>' # characters considered to be part of 
 autoload -U compinit
 compinit
 
+export CDPATH=$HOME/go/src:$HOME/src
 export PATH=$PATH:/usr/local/opt/go/bin:$HOME/go/bin
 export GOPATH=$HOME/go
 
@@ -65,91 +66,31 @@ has_makefile() {
 }
 
 is_github() {
-    if git config --get remote.origin.url |grep github.com &>/dev/null
-    then
+    if git config --get remote.origin.url |grep github.com &>/dev/null; then
         echo " "
     fi
 }
 
 git_branch() {
-    if git rev-parse --git-dir &>/dev/null
-    then
+    if git rev-parse --git-dir &>/dev/null; then
         color="red"
         git status |grep "working tree clean" &>/dev/null && color="green"
         echo "%F{$color}$(git branch |grep \*|tr \*  ) %F{white}"
     fi
 }
 
-#git_time_since_fetch() {
-    #if [[ -e .git/FETCH_HEAD ]]
-    #then
-        #seconds=$(( $(date +%s) - $(stat -f %m .git/FETCH_HEAD) ))
-    #fi
-#}
-
 export PS1='%(0?;;💔 [%?])$(is_github)$(has_dockerfile)$(has_makefile)%~ $(git_branch)$ps_emo  '
 export PS2='$ps_emo  '
 
 # ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
 
-export werkspace=("~/go/src/dedelala" "~/go/src/github.com/MYOB-Technology"    "~/src/github.com/MYOB-Technology" "~/src/github.com/dedelala" "~/src/dedelala")
 
-werkspace() {
-    echo "
-                       _                             
-    __      _____ _ __| | _____ _ __   __ _  ___ ___ 
-    \ \ /\ / / _ \ '__| |/ / __| '_ \ / _\` |/ __/ _ \ 
-     \ V  V /  __/ |  |   <\__ \ |_) | (_| | (_|  __/ 
-      \_/\_/ \___|_|  |_|\_\___/ .__/ \__,_|\___\___| 
-                               |_|                    "
 
-    select d in $werkspace
-    do
-        echo
-        echo Werking at $d
-        eval "cd $d" && ls -Fa
-        break
-    done
-
-}
-
-werk() {
-    echo "
-              _           _                       _    
-     ___  ___| | ___  ___| |_  __      _____ _ __| | __ 
-    / __|/ _ \ |/ _ \/ __| __| \ \ /\ / / _ \ '__| |/ / 
-    \__ \  __/ |  __/ (__| |_   \ V  V /  __/ |  |   < 
-    |___/\___|_|\___|\___|\__|   \_/\_/ \___|_|  |_|\_\ 
-                                                        "
-
-    werks=()
-
-    for d in $werkspace
-    do
-        for g in $(eval "find $d -name .git -type d")
-        do
-            werks=($werks ${$(dirname $g)/$HOME/"~"})
-        done
-    done
-
-    select w in $werks
-    do
-        echo
-        echo Werking on $(basename $w).
-        eval "cd $w" && {
-            ls -Fa
-            echo
-            git status
-        }
-        break
-    done
-}
-
-kcname() {
+k_name_client() {
     s=$1
     shift
     n="$@[$(( $RANDOM % ${#@[@]} + 1 ))]"
-    ps |grep -E "kak.+$n.+$s" |grep -v grep && n=$(kcname $s "${@/$n}")
+    ps |grep -E "kak.+$n.+$s" |grep -v grep && n=$(k_name_client $s "${@/$n}")
     echo $n
 }
 
@@ -157,25 +98,50 @@ k() {
     active=($(kak -l))
     names=(😊_ 😇_ 😎_ 😱_ 👻_ 👽_ 😸_)
 
-    if [[ $# -eq 0 ]]
-    then
-        select s in $active
-        do
-            n=$(kcname $s $names)
+    if [[ $# -eq 0 ]]; then
+        select s in $active; do
+            n=$(k_name_client $s $names)
             kak -e "rename-client $n; set global toolsclient $n; set global docsclient $n" -c "$s"
             return
         done
     fi
 
     pickles=("pickle" "gherkin" "kimchi" "cornichon" "sauerkraut" "tsukemono")
-    for s in $active
-    do
+    for s in $active; do
         pickles=(${pickles/$s})
     done
 
 
     s="$pickles[$(( $RANDOM % ${#pickles[@]} + 1 ))]"
-    n=$(kcname $s $names)
+    n=$(k_name_client $s $names)
     kak -e "rename-client $n; set global jumpclient $n" -s "$s" "$@"
     return
 }
+
+w() {
+	base64 -D <<< "H4sIAL1at1kAA41QMQ4DIQzb+wozJZEudLuhah9SKSr5/ysKFAJVl8IAxo4TA3wWe75gLoEEYPAiDLbAF8pKgGuYXCcRvjy90YUFR7uVWdDeDwpvzqZK0dqivkuH+2pfeSs8OvfzfoJPPP7eKaUtZxERG0N7nRX59pRStvBE1Nv2LJlcVV+tapOMD2hZKzGh+48kiDeBdLlpjgEAAA==" |gunzip
+	[[ -z "$1" ]] && 1=".*"
+    repos=()
+    for d in ${=CDPATH/:/ }; do
+        for g in $(eval "find $d -name .git -type d |grep -i '$1'"); do
+            repos=($repos ${$(dirname $g)/$d\//})
+        done
+    done
+
+	if [[ $(wc -w <<< "$repos") -eq 1 ]]; then
+		repo=$repos
+	else
+        select r in $repos; do
+			repo=$r
+            break
+        done
+	fi
+    echo "*** Pounces on $(basename $repo)! Rawr! ***"
+	base64 -D <<< "H4sIAJpbt1kAA52SMQ4EIQwD+32FlSYgsUm3HQ85CZ15CI/fwOk+EBcOjUdWApBS4xlsVy6PNQZJ95UG9Cf86WnA6MYPrXsG0LZVYAIlk6+R9X+RBKCUsPV7c08yUyOO4OtwSqt2CyCW2ue8R3CMrrEZYrerPEr/EBUN7ldlQkI6rxeK5CJ9rAIAAA==" |gunzip
+    eval "cd $repo" && {
+        ls -Fa
+        echo
+        git status
+    }
+}
+
