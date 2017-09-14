@@ -18,7 +18,6 @@ setopt prompt_subst # do expansions on PS
 setopt pushd_ignore_dups # dir stack ignore dups
 setopt pushd_minus # +/- swapped on dir stack
 setopt rc_expand_param # gooder string/array exansions
-# todo job control
 
 export HISTSIZE=10000
 export SAVEHIST=10000
