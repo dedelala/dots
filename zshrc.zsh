@@ -40,6 +40,7 @@ source /usr/local/bin/aws_zsh_completer.sh
 
 export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
 alias ls="ls -FGh"
+alias diff="diff --color=always"
 
 alias f="man"
 
