@@ -62,11 +62,11 @@ tty_emos=(🐈 🐝 🌸 🌟 🌈 💖 🎀 👻 😱 )
 ps_emo=$tty_emos[$(tty |tr -d a-z/)]
 
 has_dockerfile() {
-    [[ -e Dockerfile ]] && echo "🐳 "
+    [[ -e Dockerfile ]] && echo "🐳"
 }
 
 has_makefile() {
-    [[ -e Makefile ]] && echo "🐐 "
+    [[ -e Makefile ]] && echo "🐐"
 }
 
 is_github() {
@@ -83,29 +83,17 @@ git_branch() {
     fi
 }
 
-export PS1='%(0?;;💔 [%?])$(is_github)$(has_dockerfile)$(has_makefile)%~ $(git_branch)$ps_emo  '
-export PS2='$ps_emo  '
+export PS1='%(0?;;💔%? )$(is_github)$(has_dockerfile)$(has_makefile)%1~ $(git_branch)$ps_emo '
+export PS2='$ps_emo '
 
 # ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
 
-
-
-k_name_client() {
-    s=$1
-    shift
-    n="$@[$(( $RANDOM % ${#@[@]} + 1 ))]"
-    ps |grep -E "kak.+$n.+$s" |grep -v grep && n=$(k_name_client $s "${@/$n}")
-    echo $n
-}
-
 k() {
     active=($(kak -l))
-    names=(😊_ 😇_ 😎_ 😱_ 👻_ 👽_ 😸_)
 
     if [[ $# -eq 0 ]]; then
         select s in $active; do
-            n=$(k_name_client $s $names)
-            kak -e "rename-client $n; set global toolsclient $n; set global docsclient $n" -c "$s"
+            kak -e "rename-client $ps_emo; set global toolsclient $ps_emo; set global docsclient $ps_emo" -c "$s"
             return
         done
     fi
@@ -117,8 +105,7 @@ k() {
 
 
     s="$pickles[$(( $RANDOM % ${#pickles[@]} + 1 ))]"
-    n=$(k_name_client $s $names)
-    kak -e "rename-client $n; set global jumpclient $n" -s "$s" "$@"
+    kak -e "rename-client $ps_emo; set global jumpclient $ps_emo" -s "$s" "$@"
     return
 }
 
