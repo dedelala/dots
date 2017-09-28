@@ -46,8 +46,12 @@ alias f="man"
 
 alias g="git"
 alias a="git add"
+alias b="git branch"
+alias C="git checkout"
 alias c="git commit -m"
 alias l="git log --graph"
+alias P="git push"
+alias p="git pull"
 alias s="git status"
 
 alias -g \>X=">/dev/null"
