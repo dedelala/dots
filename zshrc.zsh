@@ -136,3 +136,4 @@ w() {
     }
 }
 
+hash fortune >/dev/null && fortune
