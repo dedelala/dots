@@ -136,4 +136,21 @@ w() {
     }
 }
 
-hash fortune >/dev/null && fortune
+motd() {
+	m="$(date +"%A, %C %B, %H:%M"). Good"
+	h=$(date +%H)
+	case $h in
+	0[0-9]|1[0-1])
+		m="$m morning"
+		;;
+	1[2-7])
+		m="$m afternoon"
+		;;
+	1[8-9]|2[0-3])
+		m="$m evening"
+		;;
+	esac
+	hash fortune >/dev/null && { echo; fortune; echo; }
+	echo "$m $(id -F)!"
+}
+motd
