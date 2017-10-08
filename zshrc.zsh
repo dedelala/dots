@@ -58,7 +58,7 @@ alias -g \>X=">/dev/null"
 
 [[ -e =gtar ]] &>/dev/null && alias tar="gtar"
 
-tty_emos=(🐈 🐝 🌸 🌟 🌈 💖 🎀 👻 😱 )
+tty_emos=(🐈 🐝 🌸 🌟 🌈 💖 🎀 👻 😱)
 ps_emo=$tty_emos[$(tty |tr -d a-z/)]
 
 has_dockerfile() {
@@ -137,7 +137,7 @@ w() {
 }
 
 motd() {
-	m="$(date +"%A, %C %B, %H:%M"). Good"
+	m="Login: $(date +"%a %b %d at %H:%M") on $(basename $(tty)). Good"
 	h=$(date +%H)
 	case $h in
 	0[0-9]|1[0-1])
@@ -151,6 +151,7 @@ motd() {
 		;;
 	esac
 	hash fortune >/dev/null && { echo; fortune; echo; }
-	echo "$m $(id -F)!"
+	c=$(( $(tty |tr -d a-z/) % 6 + 1 ))
+	echo "\e[3${c}m$m $(id -F)!\e[0m"
 }
 motd
