@@ -150,8 +150,18 @@ motd() {
 		m="$m evening"
 		;;
 	esac
+
+	case $(uname -a) in
+		Darwin*)
+			name=" $(id -F)"
+			;;
+		Linux*)
+			name=" $USER"
+			;;
+	esac
+
 	hash fortune >/dev/null && { echo; fortune; echo; }
 	c=$(( $(tty |tr -d a-z/) % 6 + 1 ))
-	echo "\e[3${c}m$m $(id -F)!\e[0m"
+	echo "\e[3${c}m$m$name!\e[0m"
 }
 motd
