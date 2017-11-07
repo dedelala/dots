@@ -84,7 +84,7 @@ git_branch() {
     if git rev-parse --git-dir &>/dev/null; then
         color="red"
         git status |grep "working tree clean" &>/dev/null && color="green"
-        echo "%F{$color}$(git branch |grep \*|tr \*  ) %f"
+        echo "%F{$color} $(git branch |grep \*|tr -d \*\ ) %f"
     fi
 }
 
