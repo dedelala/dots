@@ -58,8 +58,8 @@ alias -g \>X=">/dev/null"
 
 hash gtar &>/dev/null && alias tar="gtar"
 
-tty_emos=(🐈 🐝 🌸 🌟 🌈 💖 🎀 👻 😱)
-ps_emo=$tty_emos[$(tty |tr -d a-z/)]
+tty_emos=(🐧 🐈 🐝 🌸 🌟 🌈 💖 🎀 👻 😱)
+ps_emo=$tty_emos[$((1 + $(tty |tr -d a-z/)))]
 
 has_dockerfile() {
     [[ -e Dockerfile ]] && echo "🐳"
