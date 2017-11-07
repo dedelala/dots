@@ -84,7 +84,7 @@ git_branch() {
 }
 
 if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
-	host="%F{blue}$HOST:%F{white}"
+	host="%F{magenta} $HOST %f"
 fi
 
 export PS1='${host}%(0?;;💔%? )$(is_github)$(has_dockerfile)$(has_makefile)%1~ $(git_branch)${ps_emo} '
