@@ -66,11 +66,17 @@ has_dockerfile() {
 }
 
 has_makefile() {
-    [[ -e Makefile ]] && echo "🐐"
+    if [[ -e Makefile ]]; then
+		if make -q; then
+    		echo " "
+			return
+		fi
+		echo "%F{yellow}%B %b%f"
+	fi
 }
 
 is_github() {
-	case $(git config --get remote.origin.url)giturl in
+	case $(git config --get remote.origin.url) in
 	*github.com*)
         echo " "
 		;;
@@ -92,7 +98,7 @@ if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
 	host="%F{magenta} $HOST %f"
 fi
 
-export PS1='${host}%(0?;;💔%? )$(is_github)$(has_dockerfile)$(has_makefile)%1~ $(git_branch)${ps_emo} '
+export PS1='%(0?;;💔%? )${host}$(is_github)%1~ $(git_branch)$(has_makefile)$(has_dockerfile)${ps_emo} '
 export PS2='$ps_emo '
 
 # ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
