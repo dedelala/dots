@@ -56,7 +56,7 @@ alias s="git status"
 
 alias -g \>X=">/dev/null"
 
-[[ -e =gtar ]] &>/dev/null && alias tar="gtar"
+hash gtar &>/dev/null && alias tar="gtar"
 
 tty_emos=(🐈 🐝 🌸 🌟 🌈 💖 🎀 👻 😱)
 ps_emo=$tty_emos[$(tty |tr -d a-z/)]
