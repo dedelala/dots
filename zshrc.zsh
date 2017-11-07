@@ -110,7 +110,7 @@ k() {
 }
 
 w() {
-    base64 -D <<< "H4sIAL1at1kAA41QMQ4DIQzb+wozJZEudLuhah9SKSr5/ysKFAJVl8IAxo4TA3wWe75gLoEEYPAiDLbAF8pKgGuYXCcRvjy90YUFR7uVWdDeDwpvzqZK0dqivkuH+2pfeSs8OvfzfoJPPP7eKaUtZxERG0N7nRX59pRStvBE1Nv2LJlcVV+tapOMD2hZKzGh+48kiDeBdLlpjgEAAA==" |gunzip
+    base64 --decode <<< "H4sIAL1at1kAA41QMQ4DIQzb+wozJZEudLuhah9SKSr5/ysKFAJVl8IAxo4TA3wWe75gLoEEYPAiDLbAF8pKgGuYXCcRvjy90YUFR7uVWdDeDwpvzqZK0dqivkuH+2pfeSs8OvfzfoJPPP7eKaUtZxERG0N7nRX59pRStvBE1Nv2LJlcVV+tapOMD2hZKzGh+48kiDeBdLlpjgEAAA==" |gunzip
     [[ -z "$1" ]] && 1=".*"
     repos=()
     for d in ${=CDPATH/:/ }; do
@@ -128,7 +128,7 @@ w() {
         done
     fi
     echo "*** Pounces on $(basename $repo)! Rawr! ***"
-    base64 -D <<< "H4sIAJpbt1kAA52SMQ4EIQwD+32FlSYgsUm3HQ85CZ15CI/fwOk+EBcOjUdWApBS4xlsVy6PNQZJ95UG9Cf86WnA6MYPrXsG0LZVYAIlk6+R9X+RBKCUsPV7c08yUyOO4OtwSqt2CyCW2ue8R3CMrrEZYrerPEr/EBUN7ldlQkI6rxeK5CJ9rAIAAA==" |gunzip
+    base64 --decode <<< "H4sIAJpbt1kAA52SMQ4EIQwD+32FlSYgsUm3HQ85CZ15CI/fwOk+EBcOjUdWApBS4xlsVy6PNQZJ95UG9Cf86WnA6MYPrXsG0LZVYAIlk6+R9X+RBKCUsPV7c08yUyOO4OtwSqt2CyCW2ue8R3CMrrEZYrerPEr/EBUN7ldlQkI6rxeK5CJ9rAIAAA==" |gunzip
     eval "cd $repo" && {
         ls -Fa
         echo
