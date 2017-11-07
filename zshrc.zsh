@@ -70,16 +70,21 @@ has_makefile() {
 }
 
 is_github() {
-    if git config --get remote.origin.url |grep github.com &>/dev/null; then
+	case $(git config --get remote.origin.url)giturl in
+	*github.com*)
         echo " "
-    fi
+		;;
+	*gitlab.com*)
+		echo " "
+		;;
+	esac
 }
 
 git_branch() {
     if git rev-parse --git-dir &>/dev/null; then
         color="red"
         git status |grep "working tree clean" &>/dev/null && color="green"
-        echo "%F{$color}$(git branch |grep \*|tr \*  ) %F{white}"
+        echo "%F{$color}$(git branch |grep \*|tr \*  ) %f"
     fi
 }
 
