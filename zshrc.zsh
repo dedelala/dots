@@ -83,7 +83,11 @@ git_branch() {
     fi
 }
 
-export PS1='%(0?;;💔%? )$(is_github)$(has_dockerfile)$(has_makefile)%1~ $(git_branch)$ps_emo '
+if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
+	host="%F{blue}$HOST:%F{white}"
+fi
+
+export PS1='${host}%(0?;;💔%? )$(is_github)$(has_dockerfile)$(has_makefile)%1~ $(git_branch)${ps_emo} '
 export PS2='$ps_emo '
 
 # ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
