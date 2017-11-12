@@ -1,14 +1,14 @@
 colorscheme default
 
-face value rgb:ff6c00
-face type rgb:cda036
-face identifier rgb:b200ff
-face string rgb:ff85ff
+face value rgb:ffaa00
+face type rgb:ee00ee
+face identifier rgb:dd00ff
+face string rgb:ffaaff
 face error rgb:ffffff,rgb:cc0000
-face keyword rgb:98ec38
-face operator rgb:6666ff
-face attribute rgb:66ff66
-face comment rgb:178acb+i
+face keyword rgb:99ff00
+face operator rgb:aaaaff
+face attribute rgb:66dd66
+face comment rgb:99aaff+i
 face meta rgb:00ffff
 
 face title rgb:ffff00
@@ -21,12 +21,12 @@ face link rgb:00ffff
 face bullet rgb:ffffff
 face list rgb:ffffff
 
-face Default rgb:9de3d9
-face PrimarySelection rgb:ffffff,rgb:ff6c00+i
-face SecondarySelection rgb:aaaaaa,rgb:7d3412
-face PrimaryCursor default,rgb:ff0000+b
-face SecondaryCursor default,rgb:800000+b
-face MatchingChar default,rgb:333333
+face Default rgb:dedede
+face PrimarySelection default,rgb:4444aa
+face SecondarySelection default,rgb:222299
+face PrimaryCursor default,rgb:5500ff+b
+face SecondaryCursor default,rgb:4400dd+b
+face MatchingChar default,rgb:660066
 face Search default,rgb:333333
 face Whitespace default,rgb:002222
 face BufferPadding rgb:333333
