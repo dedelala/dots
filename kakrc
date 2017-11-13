@@ -9,9 +9,13 @@ set global scrolloff 10,10
 
 hook global WinCreate .* %{
     addhl show_matching
-    addhl number_lines -relative -hlcursor -separator "  "
+    addhl number_lines -relative -hlcursor -separator "|"
     addhl column 101 white,rgb:222200
-    addhl dynregex \h+$ 0:black,rgb:000099
+    addhl dynregex \h+$ 0:black,rgb:006600
+    addhl dynregex ^\t* 0:black,rgb:330066
+    addhl dynregex ^\ * 0:black,rgb:003344
+    addhl dynregex \ +\t+\ * 0:black,rgb:990000
+    addhl dynregex \t+\ +\t* 0:black,rgb:990000
     map window user , :buffer-previous<ret>
     map window user b :git\ blame<ret>
     map window user n :git\ hide-blame<ret>
