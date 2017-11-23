@@ -58,18 +58,16 @@ alias P="git push"
 alias p="git pull"
 alias s="git status"
 
-alias -g \>X=">/dev/null"
-
 hash gtar &>/dev/null && alias tar="gtar"
 
-tty_emos=(🐧 🐈 🐝 🌸 🌟 🌈 💖 🎀 👻 😱)
+tty_emos=(🐧 🐈 💖 🌈 🎀 🍄 👻 😱 🚧)
 ps_emo=$tty_emos[$((1 + $(tty |tr -d a-z/)))]
 
-has_dockerfile() {
+ps_docker() {
     [[ -e Dockerfile ]] && echo "🐳"
 }
 
-has_makefile() {
+ps_make() {
     if [[ -e Makefile ]]; then
         if make -q; then
             echo "%F{015} %f"
@@ -79,7 +77,7 @@ has_makefile() {
     fi
 }
 
-is_github() {
+ps_git() {
     if git rev-parse --git-dir &>/dev/null; then
         color="015"
         git status |grep "branch is ahead" &>/dev/null && color="208"
@@ -94,7 +92,7 @@ is_github() {
     fi
 }
 
-git_branch() {
+ps_br() {
     if git rev-parse --git-dir &>/dev/null; then
         color="196"
         git status |grep "working tree clean" &>/dev/null && color="034"
@@ -103,10 +101,10 @@ git_branch() {
 }
 
 if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
-    host="%F{magenta} $HOST %f"
+    ps_host="%F{magenta} $HOST %f"
 fi
 
-export PS1='%(0?;;💔%? )${host}$(is_github)%F{015}%B%1~%b%f $(git_branch)$(has_makefile)$(has_dockerfile)${ps_emo} '
+export PS1='%(0?;;💔%? )${ps_host}$(ps_git)%F{015}%B%1~%b%f $(ps_br)$(ps_make)$(ps_docker)${ps_emo} '
 export PS2='$ps_emo '
 
 # ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
