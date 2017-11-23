@@ -72,28 +72,32 @@ has_dockerfile() {
 has_makefile() {
     if [[ -e Makefile ]]; then
         if make -q; then
-            echo " "
+            echo "%F{015} %f"
             return
         fi
-        echo "%F{yellow}%B %b%f"
+        echo "%F{208}%B %b%f"
     fi
 }
 
 is_github() {
-    case $(git config --get remote.origin.url) in
-    *github.com*)
-        echo " "
-        ;;
-    *gitlab.com*)
-        echo " "
-        ;;
-    esac
+    if git rev-parse --git-dir &>/dev/null; then
+        color="015"
+        git status |grep "branch is ahead" &>/dev/null && color="208"
+        case $(git config --get remote.origin.url) in
+        *github.com*)
+            echo "%F{$color} %f"
+            ;;
+        *gitlab.com*)
+            echo "%F{$color} %f"
+            ;;
+        esac
+    fi
 }
 
 git_branch() {
     if git rev-parse --git-dir &>/dev/null; then
-        color="red"
-        git status |grep "working tree clean" &>/dev/null && color="green"
+        color="196"
+        git status |grep "working tree clean" &>/dev/null && color="034"
         echo "%F{$color} $(git branch |grep \*|tr -d \*\ ) %f"
     fi
 }
@@ -102,7 +106,7 @@ if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
     host="%F{magenta} $HOST %f"
 fi
 
-export PS1='%(0?;;💔%? )${host}$(is_github)%1~ $(git_branch)$(has_makefile)$(has_dockerfile)${ps_emo} '
+export PS1='%(0?;;💔%? )${host}$(is_github)%F{015}%B%1~%b%f $(git_branch)$(has_makefile)$(has_dockerfile)${ps_emo} '
 export PS2='$ps_emo '
 
 # ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
