@@ -27,6 +27,8 @@ export WORDCHARS='*?_-.[]~/&;!#$%^(){}<>' # characters considered to be part of 
 
 autoload -U compinit
 compinit
+autoload -U bashcompinit
+bashcompinit
 
 export CDPATH=$HOME/go/src:$HOME/src
 export PATH=$PATH:/usr/local/opt/go/bin:$HOME/go/bin
@@ -36,6 +38,8 @@ export EDITOR=kak
 
 export AWS_REGION="ap-southeast-2"
 export AWS_DEFAULT_REGION="$AWS_REGION"
+
+hash helm 2>/dev/null && source <(helm completion zsh)
 
 export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
 alias ls="ls -FGh"
@@ -68,7 +72,7 @@ has_dockerfile() {
 has_makefile() {
     if [[ -e Makefile ]]; then
 		if make -q; then
-    		echo " "
+            echo " "
 			return
 		fi
 		echo "%F{yellow}%B %b%f"
@@ -124,7 +128,7 @@ k() {
     return
 }
 
-w() {
+j() {
     base64 --decode <<< "H4sIAL1at1kAA41QMQ4DIQzb+wozJZEudLuhah9SKSr5/ysKFAJVl8IAxo4TA3wWe75gLoEEYPAiDLbAF8pKgGuYXCcRvjy90YUFR7uVWdDeDwpvzqZK0dqivkuH+2pfeSs8OvfzfoJPPP7eKaUtZxERG0N7nRX59pRStvBE1Nv2LJlcVV+tapOMD2hZKzGh+48kiDeBdLlpjgEAAA==" |gunzip
     [[ -z "$1" ]] && 1=".*"
     repos=()
@@ -142,7 +146,7 @@ w() {
             break
         done
     fi
-    echo "*** Pounces on $(basename $repo)! Rawr! ***"
+    echo "*** Jumping on $(basename $repo)! Rawr! ***"
     base64 --decode <<< "H4sIAJpbt1kAA52SMQ4EIQwD+32FlSYgsUm3HQ85CZ15CI/fwOk+EBcOjUdWApBS4xlsVy6PNQZJ95UG9Cf86WnA6MYPrXsG0LZVYAIlk6+R9X+RBKCUsPV7c08yUyOO4OtwSqt2CyCW2ue8R3CMrrEZYrerPEr/EBUN7ldlQkI6rxeK5CJ9rAIAAA==" |gunzip
     eval "cd $repo" && {
         ls -Fa
