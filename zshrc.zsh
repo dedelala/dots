@@ -71,23 +71,23 @@ has_dockerfile() {
 
 has_makefile() {
     if [[ -e Makefile ]]; then
-		if make -q; then
+        if make -q; then
             echo " "
-			return
-		fi
-		echo "%F{yellow}%B %b%f"
-	fi
+            return
+        fi
+        echo "%F{yellow}%B %b%f"
+    fi
 }
 
 is_github() {
-	case $(git config --get remote.origin.url) in
-	*github.com*)
+    case $(git config --get remote.origin.url) in
+    *github.com*)
         echo " "
-		;;
-	*gitlab.com*)
-		echo " "
-		;;
-	esac
+        ;;
+    *gitlab.com*)
+        echo " "
+        ;;
+    esac
 }
 
 git_branch() {
@@ -99,7 +99,7 @@ git_branch() {
 }
 
 if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
-	host="%F{magenta} $HOST %f"
+    host="%F{magenta} $HOST %f"
 fi
 
 export PS1='%(0?;;💔%? )${host}$(is_github)%1~ $(git_branch)$(has_makefile)$(has_dockerfile)${ps_emo} '
@@ -117,7 +117,7 @@ k() {
         done
     fi
 
-    pickles=("pickle" "gherkin" "kimchi" "cornichon" "sauerkraut" "tsukemono")
+    pickles=("pickle_" "gherkin_" "kimchi_" "cornichon_" "sauerkraut_" "tsukemono_")
     for s in $active; do
         pickles=(${pickles/$s})
     done
@@ -156,31 +156,31 @@ j() {
 }
 
 motd() {
-	m="Login: $(date +"%a %b %d at %H:%M") on $(basename $(tty)). Good"
-	h=$(date +%H)
-	case $h in
-	0[0-9]|1[0-1])
-		m="$m morning"
-		;;
-	1[2-7])
-		m="$m afternoon"
-		;;
-	1[8-9]|2[0-3])
-		m="$m evening"
-		;;
-	esac
+    m="Login: $(date +"%a %b %d at %H:%M") on $(basename $(tty)). Good"
+    h=$(date +%H)
+    case $h in
+    0[0-9]|1[0-1])
+        m="$m morning"
+        ;;
+    1[2-7])
+        m="$m afternoon"
+        ;;
+    1[8-9]|2[0-3])
+        m="$m evening"
+        ;;
+    esac
 
-	case $(uname -a) in
-		Darwin*)
-			name=" $(id -F)"
-			;;
-		Linux*)
-			name=" $USER"
-			;;
-	esac
+    case $(uname -a) in
+        Darwin*)
+            name=" $(id -F)"
+            ;;
+        Linux*)
+            name=" $USER"
+            ;;
+    esac
 
-	hash fortune >/dev/null && { echo; fortune; echo; }
-	c=$(( $(tty |tr -d a-z/) % 6 + 1 ))
-	echo "\e[3${c}m$m$name!\e[0m"
+    hash fortune >/dev/null && { echo; fortune; echo; }
+    c=$(( $(tty |tr -d a-z/) % 6 + 1 ))
+    echo "\e[3${c}m$m$name!\e[0m"
 }
 motd
