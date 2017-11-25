@@ -3,7 +3,7 @@ colorscheme default
 face value rgb:ffaa00
 face type rgb:ee00ee
 face identifier rgb:dd00ff
-face string rgb:ffcccc
+face string rgb:ffccff
 face error rgb:ffffff,rgb:cc0000
 face keyword rgb:99ff00
 face operator rgb:aaaaff
@@ -21,7 +21,7 @@ face link rgb:00ffff
 face bullet rgb:ffffff
 face list rgb:ffffff
 
-face Default rgb:ffffff
+face Default rgb:eeeeee
 face PrimarySelection default,rgb:4444aa
 face SecondarySelection default,rgb:222299
 face PrimaryCursor default,rgb:5500ff+b
