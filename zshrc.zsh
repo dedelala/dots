@@ -47,18 +47,22 @@ export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
 alias ls="ls -FGh"
 alias diff="diff --color=always"
 
-alias f="man"
+alias f="grep -sn"
+
+alias m="man"
 
 alias g="git"
 alias a="git add"
 alias b="git branch"
-alias C="git checkout"
+alias x="git checkout"
+alias C="git commit"
 alias c="git commit -m"
 alias d="git diff"
 alias l="git log --graph"
 alias P="git push"
 alias p="git pull"
 alias s="git status"
+alias rs="git reset"
 
 hash gtar &>/dev/null && alias tar="gtar"
 
