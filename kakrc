@@ -29,6 +29,7 @@ hook global BufWritePost .* "echo -debug BufWrite"
 hook global BufOpenFile .* "echo -debug BufOpen"
 
 hook global WinSetOption filetype=go %{
+    set global disabled_hooks .*-indent
     go-enable-autocomplete
     hook buffer BufWritePre .* %{ go-format -use-goimports }
     map window user . :go-doc-info<ret>
