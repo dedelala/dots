@@ -66,7 +66,7 @@ alias rs="git reset"
 
 hash gtar &>/dev/null && alias tar="gtar"
 
-tty_emos=(🐧 🐈 💖 🌈 🎀 🍄 👻 😱 🚧)
+tty_emos=(🐧 🐈 💖 🌈 🎀 🍄 👻 👒 👀 🌼 🎪 😱 🚧)
 ps_emo=$tty_emos[$((1 + $(tty |tr -d a-z/)))]
 
 ps_docker() {
