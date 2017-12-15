@@ -64,6 +64,9 @@ alias p="git pull"
 alias s="git status"
 alias rs="git reset"
 
+H() { pwd |tee $HOME/.wd }
+h() { [[ -e $HOME/.wd ]] && cd $(tee < $HOME/.wd) }
+
 hash gtar &>/dev/null && alias tar="gtar"
 
 tty_emos=(🐧 🐈 💖 🌈 🎀 🍄 👻 👒 👀 🌼 🎪 😱 🚧)
@@ -136,16 +139,6 @@ k() {
     return
 }
 
-_j() {
-    repos=()
-    for d in ${=CDPATH/:/ }; do
-        for g in $(eval "find $d -name .git -type d |grep -i '$1'"); do
-            repos=($repos ${$(dirname $g)/$d\//})
-        done
-    done
-    _alternative "repo:repos:($repos)"
-}
-
 j() {
     base64 --decode <<< "H4sIAL1at1kAA41QMQ4DIQzb+wozJZEudLuhah9SKSr5/ysKFAJVl8IAxo4TA3wWe75gLoEEYPAiDLbAF8pKgGuYXCcRvjy90YUFR7uVWdDeDwpvzqZK0dqivkuH+2pfeSs8OvfzfoJPPP7eKaUtZxERG0N7nRX59pRStvBE1Nv2LJlcVV+tapOMD2hZKzGh+48kiDeBdLlpjgEAAA==" |gunzip
     [[ -z "$1" ]] && 1=".*"
@@ -169,6 +162,16 @@ j() {
         echo
         git status
     }
+}
+
+_j() {
+    repos=()
+    for d in ${=CDPATH/:/ }; do
+        for g in $(eval "find $d -name .git -type d |grep -i '$1'"); do
+            repos=($repos ${$(dirname $g)/$d\//})
+        done
+    done
+    _alternative "repo:repos:($repos)"
 }
 
 compdef _j j
