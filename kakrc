@@ -29,9 +29,13 @@ hook global BufWritePost .* "echo -debug BufWrite"
 hook global BufOpenFile .* "echo -debug BufOpen"
 
 hook global WinSetOption filetype=go %{
+    set window lintcmd 'gofmt 2>&1 1>/dev/null'
     set global disabled_hooks .*-indent
     go-enable-autocomplete
-    hook buffer BufWritePre .* %{ go-format -use-goimports }
+    hook buffer BufWritePre .* %{
+        go-format -use-goimports
+        lint
+    }
     map window user . :go-doc-info<ret>
     map window user / :go-jump<ret>
 }
