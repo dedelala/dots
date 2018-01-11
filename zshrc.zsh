@@ -19,6 +19,7 @@ setopt pushd_ignore_dups # dir stack ignore dups
 setopt pushd_minus # +/- swapped on dir stack
 setopt rc_expand_param # gooder string/array exansions
 
+
 # set some things that may or may not make sense
 export HISTSIZE=10000
 export SAVEHIST=10000
@@ -29,6 +30,8 @@ export PATH=$PATH:/usr/local/opt/go/bin:$HOME/go/bin
 export GOPATH=$HOME/go
 export EDITOR=kak
 export DOCKER_ID_USER="dedelala"
+export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
+
 
 # init completions
 autoload -U compinit
@@ -36,11 +39,13 @@ compinit
 autoload -U bashcompinit
 bashcompinit
 
+
 # load helm completions if helm is around
 hash helm 2>/dev/null && source <(helm completion zsh)
 
-# do these need to be different on linux? idk
-export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
+# on darwin gnu tar will be gtar and bsd tar is a nonse monkey
+hash gtar &>/dev/null && alias tar="gtar"
+
 
 # aliases! alii?
 alias ls="ls -FGh"
@@ -60,14 +65,9 @@ alias p="git pull"
 alias s="git status"
 alias rs="git reset"
 
-H() { pwd |tee $HOME/.wd; }
-h() { [[ -e $HOME/.wd ]] && cd $(tee < $HOME/.wd); }
-
-hash gtar &>/dev/null && alias tar="gtar"
-
 
 # each terminal gets an emoji indexed by the tty number, on linux this starts from 0, on darwin from 1
-tty_emos=(🐧 🐈 💖 🌈 🎀 🍄 👻 👒 👀 🌼 🎪 😱 🚧)
+tty_emos=(🐧 🐈 💖 🌈 🎀 🐉 🍄 👻 👒 👀 🌼 🎪 🍌 😱 🚧)
 ps_emo=$tty_emos[$((1 + $(tty |tr -d a-z/)))]
 
 # whale = dockerfile
@@ -111,12 +111,13 @@ ps_br() {
     fi
 }
 
+# host name will only be present if we are remote
 if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
     ps_host="%F{magenta} $HOST %f"
 fi
 
 export PS1='%(0?;;💔%? )${ps_host}$(ps_git)%F{015}%B%1~%b%f $(ps_br)$(ps_make)$(ps_docker)${ps_emo} '
-export PS2='$ps_emo '
+export PS2='%I %i $ps_emo '
 
 # ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
 
@@ -180,8 +181,10 @@ _j() {
     done
     _alternative "repo:repos:($repos)"
 }
-
 compdef _j j
+
+H() { pwd |tee $HOME/.wd; }
+h() { [[ -e $HOME/.wd ]] && cd $(tee < $HOME/.wd); }
 
 
 # make computer say nice things to me.
