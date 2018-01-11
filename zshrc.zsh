@@ -19,38 +19,34 @@ setopt pushd_ignore_dups # dir stack ignore dups
 setopt pushd_minus # +/- swapped on dir stack
 setopt rc_expand_param # gooder string/array exansions
 
+# set some things that may or may not make sense
 export HISTSIZE=10000
 export SAVEHIST=10000
 export HISTFILE=~/.zsh_history
-
 export WORDCHARS='*?_-.[]~;!#$%^(){}<>' # characters considered to be part of a word (zle)
+export CDPATH=$HOME/go/src:$HOME/src
+export PATH=$PATH:/usr/local/opt/go/bin:$HOME/go/bin
+export GOPATH=$HOME/go
+export EDITOR=kak
+export DOCKER_ID_USER="dedelala"
 
+# init completions
 autoload -U compinit
 compinit
 autoload -U bashcompinit
 bashcompinit
 
-export CDPATH=$HOME/go/src:$HOME/src
-export PATH=$PATH:/usr/local/opt/go/bin:$HOME/go/bin
-export GOPATH=$HOME/go
-
-export EDITOR=kak
-
-export DOCKER_ID_USER="dedelala"
-
-export AWS_REGION="ap-southeast-2"
-export AWS_DEFAULT_REGION="$AWS_REGION"
-
+# load helm completions if helm is around
 hash helm 2>/dev/null && source <(helm completion zsh)
 
+# do these need to be different on linux? idk
 export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
+
+# aliases! alii?
 alias ls="ls -FGh"
 alias diff="diff --color=always"
-
 alias f="grep -sn"
-
 alias m="man"
-
 alias g="git"
 alias a="git add"
 alias b="git branch"
@@ -64,18 +60,22 @@ alias p="git pull"
 alias s="git status"
 alias rs="git reset"
 
-H() { pwd |tee $HOME/.wd }
-h() { [[ -e $HOME/.wd ]] && cd $(tee < $HOME/.wd) }
+H() { pwd |tee $HOME/.wd; }
+h() { [[ -e $HOME/.wd ]] && cd $(tee < $HOME/.wd); }
 
 hash gtar &>/dev/null && alias tar="gtar"
 
+
+# each terminal gets an emoji indexed by the tty number, on linux this starts from 0, on darwin from 1
 tty_emos=(🐧 🐈 💖 🌈 🎀 🍄 👻 👒 👀 🌼 🎪 😱 🚧)
 ps_emo=$tty_emos[$((1 + $(tty |tr -d a-z/)))]
 
+# whale = dockerfile
 ps_docker() {
     [[ -e Dockerfile ]] && echo "🐳"
 }
 
+# gears = makefile, orange = has targets to make
 ps_make() {
     if [[ -e Makefile ]]; then
         if make -q; then
@@ -86,6 +86,7 @@ ps_make() {
     fi
 }
 
+# github/gitlab depending on upstream config, orange = commit(s) to push
 ps_git() {
     if git rev-parse --git-dir &>/dev/null; then
         color="015"
@@ -101,6 +102,7 @@ ps_git() {
     fi
 }
 
+# git branch info, red = unstaged changes
 ps_br() {
     if git rev-parse --git-dir &>/dev/null; then
         color="red"
@@ -118,10 +120,12 @@ export PS2='$ps_emo '
 
 # ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
 
+# kak initializer
 k() {
     active=($(kak -l))
 
     if [[ $# -eq 0 ]]; then
+        echo KAKOUNE SESSION SELECT
         select s in $active; do
             kak -e "rename-client $ps_emo; set global toolsclient $ps_emo; set global docsclient $ps_emo" -c "$s"
             return
@@ -139,6 +143,8 @@ k() {
     return
 }
 
+
+# repo switcher
 j() {
     base64 --decode <<< "H4sIAL1at1kAA41QMQ4DIQzb+wozJZEudLuhah9SKSr5/ysKFAJVl8IAxo4TA3wWe75gLoEEYPAiDLbAF8pKgGuYXCcRvjy90YUFR7uVWdDeDwpvzqZK0dqivkuH+2pfeSs8OvfzfoJPPP7eKaUtZxERG0N7nRX59pRStvBE1Nv2LJlcVV+tapOMD2hZKzGh+48kiDeBdLlpjgEAAA==" |gunzip
     [[ -z "$1" ]] && 1=".*"
@@ -152,6 +158,7 @@ j() {
     if [[ $(wc -w <<< "$repos") -eq 1 ]]; then
         repo=$repos
     else
+        echo REPO SELECT
         select r in $repos; do
             repo=$r
             break
@@ -176,6 +183,8 @@ _j() {
 
 compdef _j j
 
+
+# make computer say nice things to me.
 motd() {
     m="Login: $(date +"%a %b %d at %H:%M") on $(basename $(tty)). Good"
     h=$(date +%H)
@@ -205,3 +214,36 @@ motd() {
     echo "\e[3${c}m$m$name!\e[0m"
 }
 motd
+
+
+# AWS
+export AWS_REGION="ap-southeast-2"
+export AWS_DEFAULT_REGION="$AWS_REGION"
+
+ars() {
+    echo AMAZON REGION SELECT
+    rs=(
+    "us-east-1      - US East (N. Virginia)"
+    "us-east-2      - US East (Ohio)"
+    "us-west-1      - US West (N. California)"
+    "us-west-2      - US West (Oregon)"
+    "ca-central-1   - Canada (Central)"
+    "eu-central-1   - EU (Frankfurt)"
+    "eu-west-1      - EU (Ireland)"
+    "eu-west-2      - EU (London)"
+    "eu-west-3      - EU (Paris)"
+    "ap-northeast-1 - Asia Pacific (Tokyo)"
+    "ap-northeast-2 - Asia Pacific (Seoul)"
+    "ap-southeast-1 - Asia Pacific (Singapore)"
+    "ap-southeast-2 - Asia Pacific (Sydney)"
+    "ap-south-1     - Asia Pacific (Mumbai)"
+    "sa-east-1      - South America (São Paulo)"
+    )
+    select x in "${rs[@]}"; do
+        read -r r _ p <<< "$x"
+        export AWS_REGION="$r"
+        export AWS_DEFAULT_REGION="$r"
+        echo Set region to "$p"
+        break
+    done
+}
