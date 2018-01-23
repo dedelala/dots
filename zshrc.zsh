@@ -116,10 +116,10 @@ if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
     ps_host="%F{magenta} $HOST %f"
 fi
 
-export PS1='%(0?;;💔%? )${ps_host}$(ps_git)%F{015}%B%1~%b%f $(ps_br)$(ps_make)$(ps_docker)${ps_emo}%B>%b'
-export PS2='%i$ps_emo%B<<%b'
+export PS1='%(0?;;💔%? )${ps_host}$(ps_git)%F{015}%B%1~%b%f $(ps_br)$(ps_make)$(ps_docker)${ps_emo} '
+export PS2='%i$ps_emo '
 
-# ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
+#❤️ 💛💚💙💜💔💖🐧🐳🍌🐙🐉🐈🎀🏆🌟🔥🌈❄️ 🎲
 
 # kak initializer
 k() {
