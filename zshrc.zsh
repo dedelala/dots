@@ -116,8 +116,8 @@ if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
     ps_host="%F{magenta} $HOST %f"
 fi
 
-export PS1='%(0?;;💔%? )${ps_host}$(ps_git)%F{015}%B%1~%b%f $(ps_br)$(ps_make)$(ps_docker)${ps_emo} '
-export PS2='%I %i $ps_emo '
+export PS1='%(0?;;💔%? )${ps_host}$(ps_git)%F{015}%B%1~%b%f $(ps_br)$(ps_make)$(ps_docker)${ps_emo}%B>%b'
+export PS2='%i$ps_emo%B<<%b'
 
 # ❤️ 💛 💚 💙 💜 💔 💖 🐧 🐳 🍌 🐙 🐉 🐈 🎀 🏆 🌟 🔥 🌈 ❄️ 🎲 
 
@@ -248,5 +248,15 @@ ars() {
         export AWS_DEFAULT_REGION="$r"
         echo Set region to "$p"
         break
+    done
+}
+
+# fang fangs it
+fang() {
+    cmd="$1"
+    shift
+    for arg in $*; do
+        echo "--> $cmd $arg"
+        eval "$cmd $arg"
     done
 }
