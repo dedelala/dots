@@ -45,12 +45,14 @@ hash helm 2>/dev/null && source <(helm completion zsh)
 
 # on darwin gnu tar will be gtar and bsd tar is a nonse monkey
 hash gtar &>/dev/null && alias tar="gtar"
+# on darwin the latest make will be called gmake... osx srsly
+hash gmake &>/dev/null && alias make="gmake"
 
 
 # aliases! alii?
 alias ls="ls -FGh"
 alias diff="diff --color=always"
-alias f="grep -sn"
+alias f="grep -Hsn"
 alias m="man"
 alias g="git"
 alias a="git add"
@@ -78,10 +80,10 @@ ps_docker() {
 # gears = makefile, orange = has targets to make
 ps_make() {
     if [[ -e Makefile ]]; then
-        if make -q; then
-            echo "%F{015} %f"
-            return
-        fi
+        #if make -q; then
+            #echo "%F{015} %f"
+            #return
+        #fi
         echo "%F{208}%B %b%f"
     fi
 }
@@ -133,7 +135,7 @@ k() {
         done
     fi
 
-    pickles=("pickle_" "gherkin_" "kimchi_" "cornichon_" "sauerkraut_" "tsukemono_")
+    pickles=("pickle" "gherkin" "kimchi" "cornichon" "sauerkraut" "tsukemono")
     for s in $active; do
         pickles=(${pickles/$s})
     done
