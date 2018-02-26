@@ -23,7 +23,7 @@ setopt rc_expand_param # gooder string/array exansions
 # set some things that may or may not make sense
 export HISTSIZE=10000
 export SAVEHIST=10000
-export HISTFILE=~/.zsh_history
+export HISTFILE=$HOME/.zsh_history
 export WORDCHARS='*?_-.[]~;!#$%^(){}<>' # characters considered to be part of a word (zle)
 export CDPATH=$HOME/go/src:$HOME/src
 export PATH=$PATH:/usr/local/opt/go/bin:$HOME/go/bin
@@ -118,8 +118,11 @@ if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
     ps_host="%F{magenta} $HOST %f"
 fi
 
-export PS1='%(0?;;💔%? )${ps_host}$(ps_git)%F{015}%B%1~%b%f $(ps_br)$(ps_make)$(ps_docker)${ps_emo} '
-export PS2='%i$ps_emo '
+ps_dir='%F{015}%B%1~%b%f '
+ps_sesh='%F{magenta} ${SESH}%f '
+
+export PS1='%(0?;;💔%? )${ps_host}${(e)ps_sesh}$(ps_git)${ps_dir}$(ps_br)$(ps_make)$(ps_docker)${ps_emo} '
+export PS2='$ps_emo '
 
 #❤️ 💛💚💙💜💔💖🐧🐳🍌🐙🐉🐈🎀🏆🌟🔥🌈❄️ 🎲
 
@@ -172,6 +175,7 @@ j() {
         echo
         git status
     }
+    H
 }
 
 _j() {
@@ -185,8 +189,6 @@ _j() {
 }
 compdef _j j
 
-H() { pwd |tee $HOME/.wd; }
-h() { [[ -e $HOME/.wd ]] && cd $(tee < $HOME/.wd); }
 
 
 # make computer say nice things to me.
@@ -262,3 +264,72 @@ fang() {
         eval "$cmd $arg"
     done
 }
+
+
+sesh_init() {
+    rc="$HOME/.sesh"
+    if [[ -e "$rc" ]]; then
+        return
+    fi
+
+    cat >"$rc" <<< "SESHES=(jalapeno habanero cayenne serrano guajillo poblano ghost)"
+    source "$rc"
+
+    if [[ -z "${SESHES[*]}" ]]; then
+        echo "$0 fail: no seshes"
+        return 1
+    fi
+
+    cat >>"$rc" <<< "SESH=${SESHES[1]}"
+
+    for s in "${SESHES[@]}"; do
+        cat >>"$rc" <<< "SESH_$s=$(pwd)"
+    done
+}
+
+sesh_set() {
+    rc="$HOME/.sesh"
+    if ! [[ -e "$rc" ]]; then
+        echo "$0: not init'ed"
+        return 1
+    fi
+
+    source "$rc"
+    if [[ -n "$SESH" ]]; then
+        s="SESH_$SESH"
+        if [[ -n "$s" ]]; then
+            cd "${(P)s}"
+        fi
+    fi
+}
+
+sesh() {
+    rc="$HOME/.sesh"
+    if ! [[ -e "$rc" ]]; then
+        echo "$0: not init'ed"
+        return 1
+    fi
+
+    source "$rc"
+    sel=()
+    for s in "${SESHES[@]}"; do
+        t="SESH_$s"
+        sel+=("$s -> $(basename ${(P)t})")
+    done
+
+    select s in "${sel[@]}"; do
+        read -r s _ <<< "$s"
+        sed -i -e "s/^SESH=.*$/SESH=$s/" "$rc"
+        break
+    done
+
+    sesh_set
+}
+
+H() {
+    rc="$HOME/.sesh"
+    sed -i -e "s;^SESH_$SESH=.*$;SESH_$SESH=$(pwd);" "$rc"
+    source "$rc"
+}
+alias h="sesh_set"
+sesh_set
