@@ -126,27 +126,13 @@ export PS2='$ps_emo '
 
 #❤️ 💛💚💙💜💔💖🐧🐳🍌🐙🐉🐈🎀🏆🌟🔥🌈❄️ 🎲
 
-# kak initializer
+# kak
 k() {
-    active=($(kak -l))
-
-    if [[ $# -eq 0 ]]; then
-        echo KAKOUNE SESSION SELECT
-        select s in $active; do
-            kak -e "rename-client $ps_emo; set global toolsclient $ps_emo; set global docsclient $ps_emo" -c "$s"
-            return
-        done
-    fi
-
-    pickles=("pickle" "gherkin" "kimchi" "cornichon" "sauerkraut" "tsukemono")
-    for s in $active; do
-        pickles=(${pickles/$s})
-    done
-
-
-    s="$pickles[$(( $RANDOM % ${#pickles[@]} + 1 ))]"
-    kak -e "rename-client $ps_emo; set global jumpclient $ps_emo" -s "$s" "$@"
+if ! kak -l |grep "$SESH"; then
+    kak -e "rename-client $ps_emo; set global jumpclient $ps_emo" -s "$SESH" "$@"
     return
+fi
+kak -e "rename-client $ps_emo; set global toolsclient $ps_emo; set global docsclient $ps_emo" -c "$SESH" "$@"
 }
 
 
