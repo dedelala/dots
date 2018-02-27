@@ -90,17 +90,21 @@ ps_make() {
 
 # github/gitlab depending on upstream config, orange = commit(s) to push
 ps_git() {
-    if git rev-parse --git-dir &>/dev/null; then
+    if dir=$(dirname $(git rev-parse --absolute-git-dir)) 2>/dev/null; then
         color="015"
         git status |grep "branch is ahead" &>/dev/null && color="208"
         case $(git config --get remote.origin.url) in
         *github.com*)
-            echo "%F{$color} %f"
+            echo -n "%F{$color} %f"
             ;;
         *gitlab.com*)
-            echo "%F{$color} %f"
+            echo -n "%F{$color} %f"
             ;;
         esac
+    if [[ $dir != $(pwd) ]]; then
+        echo -n "%F{110}$(dirname ${$(pwd)#$(dirname $dir)/})/%f"
+    fi
+    echo
     fi
 }
 
@@ -121,8 +125,8 @@ fi
 ps_dir='%F{015}%B%1~%b%f '
 ps_sesh='%F{magenta} ${SESH}%f '
 
-export PS1='%(0?;;💔%? )${ps_host}${(e)ps_sesh}$(ps_git)${ps_dir}$(ps_br)$(ps_make)$(ps_docker)${ps_emo} '
-export PS2='$ps_emo '
+export PS1='%(0?;;💔%? )${ps_host}${(e)ps_sesh}$(ps_git)${ps_dir}$(ps_br)$(ps_make)$(ps_docker)${ps_emo}%B %b'
+export PS2='$ps_emo%B %b'
 
 #❤️ 💛💚💙💜💔💖🐧🐳🍌🐙🐉🐈🎀🏆🌟🔥🌈❄️ 🎲
 
