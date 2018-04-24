@@ -50,6 +50,7 @@ hash gmake &>/dev/null && alias make="gmake"
 
 
 # aliases! alii?
+alias tree="tree -aI 'vendor|.git'"
 alias ls="ls -FGh"
 alias diff="diff --color=always"
 alias f="grep -Hsn"
