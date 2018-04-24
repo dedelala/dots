@@ -5,7 +5,7 @@ set global ui_options ncurses_enable_mouse=false:ncurses_assistant=cat:ncurses_s
 set global indentwidth 4
 set global tabstop 4
 set global aligntab false
-set global scrolloff 10,10
+set global scrolloff 4,4
 
 hook global WinCreate .* %{
     addhl window show_matching
