@@ -12,8 +12,8 @@ v: ~/.vimrc
 .PHONY: z
 z: ~/.zshrc
 
-~/.zshrc: zshrc.zsh
-	cp $< $@
+~/.zshrc: zsh/*
+	cat zsh/init.zsh zsh/fn-* zsh/rc.zsh > $@
 
 
 .PHONY: k
