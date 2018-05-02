@@ -64,10 +64,10 @@ hash gmake &>/dev/null && alias make="gmake"
 export EMOS=(🐧 🐈 💖 🌈 🎀 🐉 🍄 👻 👒 👀 🌼 🎪 🍌 😱 🚧)
 export EMO=$EMOS[$((1 + $(tty |tr -d a-z/)))]
 
-export PS1='%(0?;;💔%? )$(ps-host)$(ps-git)%F{015}%B%1~%b%f$(ps-br)$(ps-make)$(ps-docker)%B %b'
+export PS1='%(0?;;💔%?)$(ps-host)$(ps-git)%F{015}%B%1~%b%f$(ps-br)$(ps-make)$(ps-docker)%B%{%2G%}%b'
 export RPS1='$(ps-id)'
 
-export PS2='%B %b'
+export PS2='%B%{%2G%}%b'
 export RPS2='$(ps-id)'
 
 

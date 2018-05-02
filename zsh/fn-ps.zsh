@@ -5,10 +5,10 @@ ps-docker() {
 ps-make() {
     if [[ -e Makefile ]]; then
         if make -q &>/dev/null; then
-            echo "%F{015} %f"
+            echo "%F{015}%{%2G%}%f"
             return
         fi
-        echo "%F{208}%B %b%f"
+        echo "%F{208}%B%{%2G%}%b%f"
     fi
 }
 
@@ -27,13 +27,13 @@ ps-git() {
 
         case $(git config --get remote.origin.url) in
         *github.com*)
-            s=" "
+            s="%{%2G%}"
             ;;
         *gitlab.com*)
-            s=" "
+            s="%{%2G%}"
             ;;
         *)
-            s=" "
+            s="%{%2G%}"
             ;;
         esac
         echo -n "%F{${color}}${s}%f"
@@ -50,13 +50,13 @@ ps-br() {
     if git rev-parse --git-dir &>/dev/null; then
         color="196"
         git status |grep "working tree clean" &>/dev/null && color="green"
-        echo "%F{$color} $(git branch |grep \*|tr -d \*\ ) %f"
+        echo "%F{$color}%{%2G%}$(git branch |grep \*|tr -d \*\ )%f"
     fi
 }
 
 ps-host() {
     if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
-        echo "%F{129} $HOST %f"
+        echo "%F{129}%{%2G%}$HOST%f"
     fi
 }
 
