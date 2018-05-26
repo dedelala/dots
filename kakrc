@@ -26,9 +26,9 @@ hook global WinCreate .* %{
 }
 
 hook global BufWritePost .* git\ show-diff
-hook global BufOpenFile .* git\ show-diff
-hook global BufWritePost .* "echo -debug BufWrite"
-hook global BufOpenFile .* "echo -debug BufOpen"
+#hook global BufOpenFile .* git\ show-diff
+#hook global BufWritePost .* "echo -debug BufWrite"
+#hook global BufOpenFile .* "echo -debug BufOpen"
 
 hook global WinSetOption filetype=go %{
     set window lintcmd 'gofmt 2>&1 1>/dev/null'

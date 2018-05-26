@@ -33,7 +33,8 @@ export GOPATH=$HOME/go
 export EDITOR=kak
 export DOCKER_ID_USER="dedelala"
 export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
-
+export AWS_DEFAULT_REGION="ap-southeast-2"
+export AWS_REGION="ap-southeast-2"
 
 # aliases
 alias tree="tree -aI 'vendor|.git'"

@@ -56,7 +56,13 @@ pj-has() {
 
 # ln links something into the current pj
 pj-ln() {
-    ln -s "${1:a}" "$HOME/.pj/.p/${1:a:t}"
+    local s d
+    s="${1:a}"
+    d="$2"
+    if [[ -z "$d" ]]; then
+        d="${1:a:t}"
+    fi
+    ln -s "$s" "$HOME/.pj/.p/$d"
 }
 
 _pj-ln() {
