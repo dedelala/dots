@@ -8,6 +8,10 @@ k() {
     -c "$(pj is)" "$@"
 }
 
+gg() {
+    open "$(git config --get remote.origin.url |sed 's#^git@#https://#;s#.com:/*#.com/#;s#.git$##')"
+}
+
 repos() {
     local -a repos sauces
     local s p r
