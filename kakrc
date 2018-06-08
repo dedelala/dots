@@ -10,7 +10,7 @@ set global scrolloff 4,4
 hook global WinCreate .* %{
     addhl window show_matching
     addhl window number_lines -relative -hlcursor -separator ""
-    addhl window column 101 white,rgb:222200
+    addhl window column 101 white,rgb:101010
     addhl window dynregex \h+$ 0:black,rgb:006600
     addhl window dynregex ^\t* 0:black,rgb:330066
     addhl window dynregex ^\ * 0:black,rgb:003344
