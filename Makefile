@@ -1,5 +1,5 @@
 .PHONY: all
-all: v z k
+all: v z k blep
 
 
 .PHONY: v
@@ -27,3 +27,10 @@ k: ~/.config/kak/kakrc ~/.config/kak/colors/dedelala.kak
 	[[ -e `dirname $@` ]] || mkdir -p `dirname $@`
 	cp $< $@
 
+
+.PHONY: blep
+blep: ~/.config/kitty/kitty.conf
+	
+~/.config/kitty/kitty.conf: kitty.conf
+	[[ -e `dirname $@` ]] || mkdir -p `dirname $@`
+	cp $< $@

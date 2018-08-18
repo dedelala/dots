@@ -9,7 +9,7 @@ set global scrolloff 4,4
 
 hook global WinCreate .* %{
     addhl window show_matching
-    addhl window number_lines -relative -hlcursor -separator ""
+    addhl window number_lines -relative -hlcursor -separator " "
     addhl window column 101 white,rgb:101010
     addhl window dynregex \h+$ 0:black,rgb:006600
     addhl window dynregex ^\t* 0:black,rgb:330066
@@ -21,8 +21,8 @@ hook global WinCreate .* %{
     map window user n :git\ hide-blame<ret>
     map window user d :git\ diff<ret>
     map window user c :comment-line<ret>
-    map window user <ret> :lint-next-error<ret>
-    map window user <backspace> :lint-previous-error<ret>
+    map window user l :buffer\ *lint-output*<ret>
+    map window user m :buffer\ *make*<ret>
 }
 
 hook global BufWritePost .* git\ show-diff
@@ -31,7 +31,8 @@ hook global BufWritePost .* git\ show-diff
 #hook global BufOpenFile .* "echo -debug BufOpen"
 
 hook global WinSetOption filetype=go %{
-    set window lintcmd 'gofmt 2>&1 1>/dev/null'
+    set window lintcmd 'sync; gofmt 2>&1 1>/dev/null'
+    set window makecmd 'vgo build'
     set global disabled_hooks .*-indent
     go-enable-autocomplete
     hook buffer BufWritePre .* %{

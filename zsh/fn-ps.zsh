@@ -5,10 +5,10 @@ ps-docker() {
 ps-make() {
     if [[ -e Makefile ]]; then
         if make -q &>/dev/null; then
-            echo "%F{015}%{%2G%}%f"
+            echo "%F{015} %f"
             return
         fi
-        echo "%F{208}%B%{%2G%}%b%f"
+        echo "%F{208}%B %b%f"
     fi
 }
 
@@ -19,7 +19,7 @@ ps-git() {
             color="208"
         elif [[ "$s" =~ "branch is behind" ]]; then
             color="045"
-        elif ! git branch --remotes |grep "origin/$(git branch |grep \*|tr -d \*\ )" &>/dev/null; then
+        elif ! git branch --remotes |grep "origin/$(git rev-parse --abbrev-ref head)" &>/dev/null; then
             color="196"
         else
             color="015"
@@ -27,13 +27,13 @@ ps-git() {
 
         case $(git config --get remote.origin.url) in
         *github.com*)
-            s="%{%2G%}"
+            s=" "
             ;;
         *gitlab.com*)
-            s="%{%2G%}"
+            s=" "
             ;;
         *)
-            s="%{%2G%}"
+            s=" "
             ;;
         esac
         echo -n "%F{${color}}${s}%f"
@@ -50,13 +50,13 @@ ps-br() {
     if git rev-parse --git-dir &>/dev/null; then
         color="196"
         git status |grep "working tree clean" &>/dev/null && color="green"
-        echo "%F{$color}%{%2G%}$(git branch |grep \*|tr -d \*\ )%f"
+        echo "%F{$color} $(git rev-parse --abbrev-ref head)%f"
     fi
 }
 
 ps-host() {
     if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
-        echo "%F{129}%{%2G%}$HOST%f"
+        echo "%F{129} $HOST%f"
     fi
 }
 
