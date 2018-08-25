@@ -2,7 +2,7 @@
 
 die() { echo "failed: $*" >&2; exit 1; }
 
-cd "$(dirname "$(git rev-parse --absolute-git-dir)")" || die "dots root"
+cd "$(dirname "$0")" || die "dots root"
 
 cat zsh/init.zsh zsh/fn-*.zsh zsh/rc.zsh > "$HOME/.zshrc"
 
