@@ -30,11 +30,13 @@ export WORDCHARS='*?_-.[]~;!#$%^(){}<>' # characters considered to be part of a 
 export CDPATH=$HOME/.pj/.p
 export PATH=$PATH:/usr/local/opt/go/bin:$HOME/go/bin
 export GOPATH=$HOME/go
+export GO111MODULE=on
 export EDITOR=kak
 export DOCKER_ID_USER="dedelala"
 export LSCOLORS="gafaBabacaxxxxxxxxxxxx"
 export AWS_DEFAULT_REGION="ap-southeast-2"
 export AWS_REGION="ap-southeast-2"
+
 
 # aliases
 alias grep="grep -s"
