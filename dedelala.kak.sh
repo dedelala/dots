@@ -29,7 +29,7 @@ operator    $blu
 attribute   $blu
 comment     $bbl+i
 meta        $blu
-builtin     $prp+b
+builtin     $blu
 
 title       $blu
 header      $pnk
@@ -49,13 +49,13 @@ SecondarySelection  default,$mblu
 SecondaryCursor     $dprp,$pnk
 SecondaryCursorEol  default,$orn
 
-MatchingChar      default,$prp
+MatchingChar      $blu+b
 Search            default
 CurrentWord       default
 Whitespace        default
 BufferPadding     default
 LineNumbers       $pnk
-LineNumberCursor  $pnk+b
+LineNumberCursor  $blu
 
 MenuForeground   $pnk,$dblu
 MenuBackground   $blu,$dblu
