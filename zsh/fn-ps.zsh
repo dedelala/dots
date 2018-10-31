@@ -19,7 +19,7 @@ ps-git() {
             color="208"
         elif [[ "$s" =~ "branch is behind" ]]; then
             color="045"
-        elif ! git branch --remotes |grep "origin/$(git rev-parse --abbrev-ref HEAD)" &>/dev/null; then
+        elif ! git branch --remotes |grep "origin/$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" &>/dev/null; then
             color="196"
         else
             color="015"
@@ -50,7 +50,7 @@ ps-br() {
     if git rev-parse --git-dir &>/dev/null; then
         color="196"
         git status |grep "working tree clean" &>/dev/null && color="green"
-        echo "%F{$color} $(git rev-parse --abbrev-ref HEAD)%f"
+        echo "%F{$color} $(git rev-parse --abbrev-ref HEAD 2>/dev/null)%f"
     fi
 }
 
