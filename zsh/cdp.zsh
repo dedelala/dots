@@ -1,8 +1,7 @@
 # be makes the cdp be something else
 cdp-be() {
-        local p
         cdp mk "$1" || return 1
-        ln -fsv "$HOME/.cdp/$p" "$HOME/.cdp/.p"
+        ln -fsv "$HOME/.cdp/$1" "$HOME/.cdp/.p"
         cdp-cd
 }
 
@@ -15,7 +14,6 @@ compdef _cdp-be cdp-be
 # cd changes to and sets the home directory for the active cdp
 cdp-cd() {
         if ! [[ -e "$HOME/.cdp/.p/.home" ]]; then return 1; fi
-        local h
         if [[ -n "$1" ]]; then
                 if ! cd "$1"; then
                         return 1
@@ -102,12 +100,12 @@ compdef _cdp-ls cdp-ls
 
 # mk makes a cdp
 cdp-mk() {
-        if [[ -n "$1" ]]; then return 1; fi
+        if [[ -z "$1" ]]; then return 1; fi
         local d
         d="$HOME/.cdp/$1"
         if ! [[ -d "$d" ]]; then
                 mkdir -pv "$d"
-                ln -sv "$HOME" "$d/.home"
+                ln -fsv "$HOME" "$d/.home"
         fi
 }
 
