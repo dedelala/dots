@@ -8,6 +8,10 @@ f=$(mktemp) || die "tmp"
 trap 'rm -rf "$f"' EXIT
 
 {
+        # fc
+        mkdir -pv "$HOME/.config/fontconfig"           || die "fc dir"
+        cp -v fc/fonts.conf "$HOME/.config/fontconfig" || die "fonts.conf"
+
         # kak
         mkdir -pv "$HOME/.config/kak/colors"                || die "kak dir"
         kak/dedelala.kak.sh > "$f"                          || die "dedelala.kak.sh"
