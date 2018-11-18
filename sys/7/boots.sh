@@ -12,7 +12,7 @@ xbps-install -Syy glxinfo libEGL libXft libXinerama xdpyinfo xev \
   xf86-video-intel xfontsel xhost xinit xmodmap xorg-fonts xorg-minimal \
   xprop xrandr xrdb xset xsetroot || die "install"
 
-xbps-install -Syy docker go gnupg jq make pkg-config shellcheck tree \
+xbps-install -Syy docker go gnupg pass jq make pkg-config shellcheck tree \
   unzip zip zsh firefox lemonbar-xft scrot || die "install"
 
 tee /etc/rc.conf <<! || die "rc.conf"

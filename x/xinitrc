@@ -13,13 +13,12 @@ xmodmap "$HOME/.Xmodmap"
 rm -rf /tmp/dwm.status
 mkfifo /tmp/dwm.status
 
-bar='$HOME/go/bin/rack -l -r 3s bar | lemonbar -p -d -g x38 \
+"$HOME/go/bin/rack" -l -r 3s bar | lemonbar -p -d -g x38 \
   -f "Go Regular" \
   -f "Font Awesome 5 Free:style=Regular" \
   -f "Font Awesome 5 Free:style=Solid" \
-  -f "Font Awesome 5 Brands"
-'
+  -f "Font Awesome 5 Brands" &
 
-nohup sh -c "$bar" &
+firefox &
 
 exec dwm

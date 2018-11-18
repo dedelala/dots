@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Go Mono,Font Awesome 5 Free:pixelsize=42:antialias=true:autohint=true";
+static char *font = "Go Mono,Font Awesome 5 Free:pixelsize=36:antialias=true:autohint=true";
 static int borderpx = 2;
 
 /*
