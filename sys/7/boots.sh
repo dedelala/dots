@@ -13,7 +13,7 @@ xbps-install -Syy glxinfo libEGL libXft libXinerama xdpyinfo xev \
   xprop xrandr xrdb xset xsetroot || die "install"
 
 xbps-install -Syy docker go gnupg pass jq make pkg-config shellcheck tree \
-  unzip zip zsh firefox lemonbar-xft scrot || die "install"
+  unzip zip zsh firefox lemonbar-xft breeze-purple-cursor-theme scrot || die "install"
 
 tee /etc/rc.conf <<! || die "rc.conf"
 TIMEZONE=Australia/Melbourne
