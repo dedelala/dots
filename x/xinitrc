@@ -19,6 +19,6 @@ mkfifo /tmp/dwm.status
   -f "Font Awesome 5 Free:style=Solid" \
   -f "Font Awesome 5 Brands" &
 
-MOZ_USE_XINPUT2=1 firefox &
+MOZ_USE_XINPUT2=1 apulse firefox &
 
 exec dwm

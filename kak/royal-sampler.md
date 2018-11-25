@@ -4,9 +4,7 @@ a sample document for my text editor
 
 
 ## go
-
 ```go
-
 // play plays until it stops
 func play() (stop func()) {
 	// the tempo is 120 bpm
@@ -33,31 +31,23 @@ func play() (stop func()) {
 
 	return func() { x <- struct{}{}; close(x) }
 }
-
 ```
 
-
-## bash
-
+## sh
 ```sh
-
 #!/bin/bash
 
 die() { echo "oh noes: $*" >&2; exit 1; }
 
-for x in go go go; do
-        hash "$x" &>/dev/null || die "missing $x"
+for go in go go go; do
+        hash "$go" &>/dev/null || die "missing $go"
 done
 
 GO111MODULE=on GOOS=linux CGO_ENABLED=0 GOARCH=amd64 go build || die "build"
-
 ```
 
-
 ## yaml
-
 ```yaml
-
 test:
   fields:
     when: 2000-01-01
@@ -71,5 +61,4 @@ test:
     things:
       - thing: blep
       - thing: mlem
-
 ```
