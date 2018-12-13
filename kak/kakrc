@@ -1,21 +1,23 @@
 colorscheme dedelala
 
-set global ui_options ncurses_enable_mouse=false:ncurses_assistant=cat:ncurses_set_title=false
+set global ui_options ncurses_enable_mouse=false ncurses_assistant=cat ncurses_set_title=false
 
 set global indentwidth 8
 set global tabstop 8
 set global aligntab false
 set global scrolloff 4,4
 
+# set global termcmd 'st -c kakoune -e sh -c'
+
 hook global WinCreate .* %{
-    addhl window show_matching
-    addhl window number_lines -relative -hlcursor -separator " "
-    addhl window column 81 white,rgb:2d0040
-    addhl window dynregex \h+$ 0:black,rgb:545453
-    addhl window dynregex ^\t* 0:black,rgb:2d0040
-    addhl window dynregex ^\ * 0:black,rgb:000f40
-    addhl window dynregex \ +\t+\ * 0:black,rgb:d22323
-    addhl window dynregex \t+\ +\t* 0:black,rgb:d22323
+    addhl window/ show-matching
+    addhl window/ number-lines -relative -hlcursor -separator " "
+    addhl window/ column 81 white,rgb:2d0040
+    addhl window/ dynregex \h+$ 0:black,rgb:545453
+    addhl window/ dynregex ^\t* 0:black,rgb:2d0040
+    addhl window/ dynregex ^\ * 0:black,rgb:000f40
+    addhl window/ dynregex \ +\t+\ * 0:black,rgb:d22323
+    addhl window/ dynregex \t+\ +\t* 0:black,rgb:d22323
     map window user -docstring "<--" , :buffer-previous<ret>
     map window user -docstring "-->" . :buffer-next<ret>
     map window user -docstring "blame" b :git\ blame<ret>
@@ -24,6 +26,22 @@ hook global WinCreate .* %{
     map window user -docstring "comment" c :comment-line<ret>
     map window user -docstring "lint" l :lint<ret>:buffer\ *lint-output*<ret>
     map window user -docstring "make" m :make<ret>:buffer\ *make*<ret>
+    map window user -docstring "split top" <up> %{
+            :set global termcmd "herbstclient chain , split top 0.5 , focus up , spawn st -c kakoune -e sh -c"<ret>
+            :x11-new<ret>
+    }
+    map window user -docstring "split bottom" <down> %{
+            :set global termcmd "herbstclient chain , split bottom 0.5 , focus down , spawn st -c kakoune -e sh -c"<ret>
+            :x11-new<ret>
+    }
+    map window user -docstring "split left" <left> %{
+            :set global termcmd "herbstclient chain , split left 0.5 , focus left , spawn st -c kakoune -e sh -c"<ret>
+            :x11-new<ret>
+    }
+    map window user -docstring "split right" <right> %{
+            :set global termcmd "herbstclient chain , split right 0.5 , focus right , spawn st -c kakoune -e sh -c"<ret>
+            :x11-new<ret>
+    }
 }
 
 hook global BufWritePost .* git\ show-diff

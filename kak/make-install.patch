@@ -1,0 +1,13 @@
+diff --git a/src/Makefile b/src/Makefile
+index 7771f775..26977c23 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -137,7 +137,7 @@ installdirs:
+ 		$(docdir) \
+ 		$(mandir)
+ 
+-install: kak man installdirs
++install: man installdirs
+ 	install -m 0755 kak $(bindir)
+ 	install -m 0644 ../share/kak/kakrc $(sharedir)
+ 	install -m 0644 ../doc/pages/*.asciidoc $(sharedir)/doc

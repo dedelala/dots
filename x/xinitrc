@@ -1,0 +1,26 @@
+#!/bin/sh
+
+if [ -d /etc/X11/xinit/xinitrc.d ]; then
+  for f in /etc/X11/xinit/xinitrc.d/*; do
+    [ -x "$f" ] && . "$f"
+  done
+  unset f
+fi
+
+xrdb -merge "$HOME/.Xresources"
+xmodmap "$HOME/.Xmodmap"
+
+# rm -rf /tmp/dwm.status
+# mkfifo /tmp/dwm.status
+
+# "$HOME/go/bin/rack" -l -r 3s bar | lemonbar -p -d -g x40 -o -7 \
+#   -f "Go Regular" \
+#   -f "Font Awesome 5 Free:style=Regular" \
+#   -f "Font Awesome 5 Free:style=Solid" \
+#   -f "Font Awesome 5 Brands" &
+
+# MOZ_USE_XINPUT2=1 apulse firefox &
+
+# exec dwm
+
+exec herbstluftwm --locked

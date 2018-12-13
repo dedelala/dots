@@ -15,7 +15,7 @@ dblu="rgb:000F40"
 #mprp="rgb:5a0080"
 dprp="rgb:2d0040"
 
-while read -r f v; do [[ -n $f ]] && echo "face $f $v"; done <<🐈
+while read -r f v; do [[ -n $f ]] && echo "face global $f $v"; done <<🐈
 value       $orn
 type        $prp
 identifier  $prp
