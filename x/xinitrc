@@ -10,15 +10,17 @@ fi
 xrdb -merge "$HOME/.Xresources"
 xmodmap "$HOME/.Xmodmap"
 
-rm -rf /tmp/dwm.status
-mkfifo /tmp/dwm.status
+# rm -rf /tmp/dwm.status
+# mkfifo /tmp/dwm.status
 
-"$HOME/go/bin/rack" -l -r 3s bar | lemonbar -p -d -g x40 -o -7 \
-  -f "Go Regular" \
-  -f "Font Awesome 5 Free:style=Regular" \
-  -f "Font Awesome 5 Free:style=Solid" \
-  -f "Font Awesome 5 Brands" &
+# "$HOME/go/bin/rack" -l -r 3s bar | lemonbar -p -d -g x40 -o -7 \
+#   -f "Go Regular" \
+#   -f "Font Awesome 5 Free:style=Regular" \
+#   -f "Font Awesome 5 Free:style=Solid" \
+#   -f "Font Awesome 5 Brands" &
 
-MOZ_USE_XINPUT2=1 apulse firefox &
+# MOZ_USE_XINPUT2=1 apulse firefox &
 
-exec dwm
+# exec dwm
+
+exec herbstluftwm --locked

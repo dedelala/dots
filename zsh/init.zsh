@@ -1,3 +1,5 @@
+[[ -r "$HOME/.profile" ]] && . "$HOME/.profile"
+
 if hash tty &>/dev/null && [[ $(tty) == /dev/tty1 ]]; then
         startx
         exit

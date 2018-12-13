@@ -28,10 +28,6 @@ export SAVEHIST=10000
 export HISTFILE=$HOME/.zsh_history
 export WORDCHARS='*?_-.[]~;!#$%^(){}<>' # characters considered to be part of a word (zle)
 export CDPATH=$HOME/.cdp/.p
-export PATH=$PATH:/usr/local/opt/go/bin:$HOME/go/bin
-export GOPATH=$HOME/go
-export EDITOR=kak
-export DOCKER_ID_USER="dedelala"
 
 
 # aliases
@@ -40,7 +36,6 @@ alias tree="tree -aI 'vendor|.git'"
 alias ls="ls -FGh"
 alias diff="diff --color=always"
 alias f="grep -Hsn"
-alias m="man"
 alias g="git"
 alias a="git add"
 alias b="git branch"
@@ -53,7 +48,9 @@ alias P="git push"
 alias p="git pull"
 alias s="git status"
 alias rs="git reset"
-
+alias xi="xbps-install -S"
+alias xq="xbps-query -Rs"
+alias hc="herbstclient"
 
 # conditional aliases
 hash gtar &>/dev/null && alias tar="gtar"
@@ -61,8 +58,8 @@ hash gmake &>/dev/null && alias make="gmake"
 
 
 # prompt
-export PS1='$(rack ps1)'
-export RPS1='$(rack rps1)'
-export PS2='$(rack ps2)'
+export PS1='$(hermes -p zsh ps1)'
+export RPS1='$(hermes -p zsh rps1)'
+export PS2='$(hermes -p zsh ps2)'
 
 cdp cd || cdp be lala
