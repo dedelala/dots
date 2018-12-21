@@ -8,6 +8,7 @@ c="$HOME/.config"
 mkdir -pv "$c/fontconfig"   || die "fc dir"
 mkdir -pv "$c/kak/colors"   || die "kak dir"
 mkdir -pv "$c/herbstluftwm" || die "herb dir"
+mkdir -pv "$c/kitty"        || die "kitty dir"
 
 t=$(mktemp -d) || die "tmp"
 trap 'rm -rf "$t"' EXIT
@@ -23,6 +24,9 @@ trap 'rm -rf "$t"' EXIT
         kak/dedelala.kak.sh > "$t/dedelala.kak"                 || die "dedelala.kak.sh"
         cp --preserve=mode -v "$t/dedelala.kak" "$c/kak/colors" || die "dedelala.kak"
         cp --preserve=mode -v kak/kakrc "$c/kak"                || die "kakrc"
+
+        # kitty
+        cp --preserve=mode -v kitty/* "$c/kitty" || die "kitty"
 
         # profile
         cp --preserve=mode -v profile "$HOME/.profile"
