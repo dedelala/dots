@@ -48,7 +48,7 @@ alias P="git push"
 alias p="git pull"
 alias s="git status"
 alias rs="git reset"
-alias xi="xbps-install -S"
+alias xi="sudo xbps-install -S"
 alias xq="xbps-query -Rs"
 alias hc="herbstclient"
 

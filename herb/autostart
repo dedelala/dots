@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# this is a simple config for herbstluftwm
-
 hc() {
     herbstclient "$@"
 }
@@ -10,94 +8,60 @@ hc emit_hook reload
 
 xsetroot -solid '#2d0040'
 
-# remove all existing keybindings
-hc keyunbind --all
+hc detect_monitors
+read -r _ _ w h <<< "$(hc monitor_rect)"
+fill="${w}x${h}"
+left="$((w/2))x${h}"
+right="$((w/2))x${h}+$((w/2))"
+
+hc set default_frame_layout 2
+
+hc add kitty
+hc merge_tag default kitty
+hc add fox
+
+hc set_monitors "$fill" "$fill"
+hc rename_monitor 0 main
+hc rename_monitor 1 alt
+
 
 # keybindings
-# if you have a super key you will be much happier with Mod set to Mod4
-#Mod=Mod1    # Use alt as the main modifier
-Mod=Mod4   # Use the super key as the main modifier
+hc keyunbind --all
+Mod=Mod4
 
-hc keybind $Mod-Shift-q quit
-hc keybind $Mod-Shift-r reload
-hc keybind $Mod-Shift-c close_and_remove
+hc keybind $Mod-Shift-q    quit
+hc keybind $Mod-Shift-r    reload
+hc keybind $Mod-Shift-c    close_and_remove
+hc keybind $Mod-Shift-x    remove
+hc keybind $Mod-x          split explode
+hc keybind $Mod-space      floating toggle
+hc keybind $Mod-Return     fullscreen toggle
+hc keybind $Mod-p          pseudotile toggle
+hc keybind $Mod-z          cycle
+hc keybind $Mod-i          jumpto urgent
+hc keybind $Mod-Control-f  set_monitors "$fill" "$fill"
 
-# basic movement
-# focusing clients
-hc keybind $Mod-a     focus left
-hc keybind $Mod-s     focus down
-hc keybind $Mod-w     focus up
-hc keybind $Mod-d     focus right
+hc keybind $Mod-Tab and \
+        , raise_monitor main , focus_monitor main \
+        , use kitty , compare tags.focus.client_count = 0 , spawn kitty
 
-# moving clients
-hc keybind $Mod-Shift-a     shift left
-hc keybind $Mod-Shift-s     shift down
-hc keybind $Mod-Shift-w     shift up
-hc keybind $Mod-Shift-d     shift right
-
-# splitting frames
-# create an empty frame at the specified direction
-hc keybind $Mod-u       split   bottom  0.5
-hc keybind $Mod-o       split   right   0.5
-# let the current frame explode into subframes
-hc keybind $Mod-Control-space split explode
-
-hc keybind $Mod-e       chain , split bottom 0.5 , focus down , spawn ${TERMINAL:-st}
-hc keybind $Mod-Shift-e chain , split right 0.5 , focus right , spawn ${TERMINAL:-st}
-
-# resizing frames
-resizestep=0.05
-hc keybind $Mod-Control-a       resize left +$resizestep
-hc keybind $Mod-Control-s       resize down +$resizestep
-hc keybind $Mod-Control-w       resize up +$resizestep
-hc keybind $Mod-Control-d       resize right +$resizestep
-
-# tags
-# tag_names=( {1..9} )
-# tag_keys=( {1..9} 0 )
-
-# hc rename default "${tag_names[0]}" || true
-# for i in ${!tag_names[@]} ; do
-#     hc add "${tag_names[$i]}"
-#     key="${tag_keys[$i]}"
-#     if ! [ -z "$key" ] ; then
-#         hc keybind "$Mod-$key" use_index "$i"
-#         hc keybind "$Mod-Shift-$key" move_index "$i"
-#     fi
-# done
-
-hc rename default cube
-hc keybind $Mod-1 and , use cube \
-        , compare tags.focus.client_count = 0 , spawn st
-hc keybind $Mod-2 and , add hammer , use hammer \
-        , compare tags.focus.client_count = 0 , spawn st
-hc keybind $Mod-3 and , add shield , use shield \
-        , compare tags.focus.client_count = 0 , spawn st
-hc keybind $Mod-f and , add fox , use fox \
-        , compare tags.focus.client_count = 0 \
+hc keybind $Mod-f and \
+        , raise_monitor alt , focus_monitor alt \
+        , use fox , compare tags.focus.client_count = 0 \
         , spawn env MOZ_USE_XINPUT2=1 apulse firefox
 
-# cycle through tags
-hc keybind $Mod-period use_index +1 --skip-visible
-hc keybind $Mod-comma  use_index -1 --skip-visible
+hc keybind $Mod-Shift-f and \
+        , set_monitors "$left" "$right" \
+        , raise_monitor alt , focus_monitor alt \
+        , use fox , compare tags.focus.client_count = 0 \
+        , spawn env MOZ_USE_XINPUT2=1 apulse firefox
 
-# layouting
-hc keybind $Mod-space floating toggle
-hc keybind $Mod-Return fullscreen toggle
-hc keybind $Mod-p pseudotile toggle
 
 # mouse
 hc mouseunbind --all
 hc mousebind $Mod-Button1 move
 hc mousebind $Mod-Button2 zoom
 hc mousebind $Mod-Button3 resize
-
-# focus
-hc keybind $Mod-BackSpace   cycle_monitor
-hc keybind $Mod-Tab         cycle_all +1
-hc keybind $Mod-Shift-Tab   cycle_all -1
-hc keybind $Mod-c cycle
-hc keybind $Mod-i jumpto urgent
 
 # theme
 hc attr theme.tiling.reset 1
@@ -146,20 +110,20 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
 hc set tree_style '╾│ ├└╼─┐'
 
+
 # unlock, just to be sure
 hc unlock
 
-# do multi monitor setup here, e.g.:
-# hc set_monitors 1280x1024+0+0 1280x1024+1280+0
-# or simply:
-# hc detect_monitors
+hc pad main 50
+hc pad alt 50
+hermes -l -s '  ' -p bar bar | lemonbar \
+        -B '#00000000' \
+        -f "Go Regular:size=12" \
+        -f "Font Awesome 5 Free:style=Regular:size=16" \
+        -f "Font Awesome 5 Free:style=Solid:size=16" \
+        -f "Font Awesome 5 Brands:size=16" &
 
-# find the panel
-panel=~/.config/herbstluftwm/panel.sh
-[ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
-for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
-    # start it on each monitor
-    "$panel" $monitor &
-done
+hc and , raise_monitor main , focus_monitor main \
+        , compare tags.by-name.kitty.client_count = 0 \
+        , use kitty , spawn kitty
 
-hc and , compare tags.by-name.cube.client_count = 0 , use cube , spawn st
