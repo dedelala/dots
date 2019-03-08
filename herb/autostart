@@ -19,6 +19,7 @@ hc set default_frame_layout 2
 hc add kitty
 hc merge_tag default kitty
 hc add fox
+hc add shield
 
 hc set_monitors "$fill" "$fill"
 hc rename_monitor 0 main
@@ -34,12 +35,14 @@ hc keybind $Mod-Shift-r    reload
 hc keybind $Mod-Shift-c    close_and_remove
 hc keybind $Mod-Shift-x    remove
 hc keybind $Mod-x          split explode
-hc keybind $Mod-space      floating toggle
+hc keybind $Mod-Shift-Return floating toggle
 hc keybind $Mod-Return     fullscreen toggle
 hc keybind $Mod-p          pseudotile toggle
 hc keybind $Mod-z          cycle
 hc keybind $Mod-i          jumpto urgent
 hc keybind $Mod-Control-f  set_monitors "$fill" "$fill"
+hc keybind $Mod-Shift-space spawn rofi -show window
+
 
 hc keybind $Mod-Tab and \
         , raise_monitor main , focus_monitor main \
