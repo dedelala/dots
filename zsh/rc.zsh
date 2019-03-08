@@ -62,4 +62,4 @@ export PS1='$(hermes -p zsh ps1)'
 export RPS1='$(hermes -p zsh rps1)'
 export PS2='$(hermes -p zsh ps2)'
 
-cdp cd || cdp be lala
+cdp is &>/dev/null || cdp be lala
