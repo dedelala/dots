@@ -16,6 +16,7 @@ hook global WinCreate .* %{
     addhl window/ dynregex ^\ * 0:black,rgb:000f40
     addhl window/ dynregex \ +\t+\ * 0:black,rgb:d22323
     addhl window/ dynregex \t+\ +\t* 0:black,rgb:d22323
+    addhl window/ dynregex ^[<=>]{7} 0:rgb:ff6666
     map window user -docstring "<--" , :buffer-previous<ret>
     map window user -docstring "-->" . :buffer-next<ret>
     map window user -docstring "blame" b :git\ blame<ret>
@@ -24,13 +25,43 @@ hook global WinCreate .* %{
     map window user -docstring "comment" c :comment-line<ret>
     map window user -docstring "lint" l :lint<ret>:buffer\ *lint-output*<ret>
     map window user -docstring "make" m :make<ret>:buffer\ *make*<ret>
-    map window user -docstring "split" <space> :kitty-new<ret>
-    map window user -docstring "tab" <tab> :kitty-new-tab<ret>
+    map window user -docstring "split" <space> :split<ret>
+    map window user -docstring "shell" <tab> :shell<ret>
+    map window user -docstring "next conflict" x /^<lt>{7}<ret>?^<gt>{7}<ret>Gl
+    map window user -docstring "resolve keep a" <lt> s^<lt>{7}<ret>Xd/^={7}<ret>?^<gt>{7}<ret>Xd
+    map window user -docstring "resolve keep b" <gt> s^<lt>{7}<ret>?^={7}<ret>Xd/^<gt>{7}<ret>Xd
+}
+
+define-command shell %{ nop %sh{
+    kitty @ new-window --no-response --cwd="$(dirname "$kak_buffile")"
+}}
+
+define-command split %{ evaluate-commands %sh{
+    if [[ $kak_client_list =~ client0 ]]; then
+        echo rename-client adelaide
+        echo new rename-client brunhilde
+        exit
+    fi
+
+    for c in brunhilde cassandra desdemona esperanza friedegarde; do
+        if ! [[ $kak_client_list =~ $c ]]; then
+            echo new rename-client $c
+            exit
+        fi
+    done
+
+    echo echo you have enough
+}}
+
+hook global KakBegin .* %sh{
+    echo rename-session \"$(basename "$PWD")\"
 }
 
 hook global BufWritePost .* git\ show-diff
 
 hook global WinSetOption filetype=go %{
+    set global indentwidth 0
+    set global tabstop 8
     set window lintcmd 'sync; gofmt 2>&1 1>/dev/null'
     set window makecmd 'go build'
     set window disabled_hooks .*-indent
@@ -43,10 +74,37 @@ hook global WinSetOption filetype=go %{
     map window user -docstring "go jump" / :go-jump<ret>
 }
 
+hook global WinSetOption filetype=python %{
+    set window indentwidth 4
+    set window tabstop 4
+    set window lintcmd 'flake8 --ignore=E501'
+    set window formatcmd 'yapf'
+    lint-enable
+    hook buffer BufWritePost .* lint
+}
+
+hook global WinSetOption filetype=ruby %{
+    set window indentwidth 2
+    set window tabstop 2
+    set window lintcmd 'rubocop --format c --cache false'
+    lint-enable
+    hook buffer BufWritePost .* lint
+}
+
 hook global WinSetOption filetype=sh %{
+    set window indentwidth 4
+    set window tabstop 4
     set window lintcmd 'shellcheck -fgcc -Cnever'
     lint-enable
     hook buffer BufWritePost .* lint
+}
+
+hook global WinSetOption filetype=hcl %{
+    set window indentwidth 2
+    set window tabstop 2
+    set window formatcmd 'terraform fmt -'
+    hook buffer BufWritePre .* format
+    hook buffer BufWritePost .* tf-validate
 }
 
 hook global WinSetOption filetype=yaml %{
@@ -56,3 +114,4 @@ hook global WinSetOption filetype=yaml %{
     lint-enable
     hook buffer BufWritePost .* lint
 }
+
