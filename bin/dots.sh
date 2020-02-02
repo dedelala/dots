@@ -1,8 +1,8 @@
 #!/bin/bash
 
-die() { echo "yeah nah: $*" >&2; exit 1; }
+die() { echo "oh noes! $*" >&2; exit 1; }
 
-cd "$(dirname "$0")" || die "root"
+cd "$(git rev-parse --show-toplevel)" || die "root"
 
 c="$HOME/.config"
 mkdir -pv "$c/fontconfig"   || die "fc dir"
@@ -16,9 +16,11 @@ trap 'rm -rf "$t"' EXIT
 {
         # fc
         cp --preserve=mode -v fc/fonts.conf "$c/fontconfig" || die "fonts.conf"
+        fc-cache || die "fc-cache"
 
         # herb
-        cp --preserve=mode -v herb/* "$c/herbstluftwm" || die "herb"
+        cp --preserve=mode -v herb/any/* "$c/herbstluftwm"     || die "herb"
+        cp --preserve=mode -v herb/"$HOSTNAME"/* "$c/herbstluftwm" || die "herb"
 
         # kak
         kak/dedelala.kak.sh > "$t/dedelala.kak"                 || die "dedelala.kak.sh"
@@ -41,3 +43,7 @@ trap 'rm -rf "$t"' EXIT
         cp --preserve=mode -v "$t/.zshrc" "$HOME"             || die "zshrc"
 
 } | column -t
+
+herbstclient reload
+xrdb -merge "$HOME/.Xresources"
+xmodmap "$HOME/.Xmodmap"

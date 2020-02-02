@@ -1,0 +1,7 @@
+gimp       /bin/gimp
+factorio   "$HOME/play/factorio/start.sh"
+ksp        "$HOME/play/ksp/KSP.x86_64"
+minecraft  "$HOME/play/minecraft-launcher/minecraft-launcher"
+starbound  "$HOME/play/starbound/start.sh"
+stardew    "$HOME/play/stardew/start.sh"
+

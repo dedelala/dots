@@ -2,7 +2,7 @@
 
 die() { echo "sad tools face: $*"; exit 1; }
 
-cd "$(dirname "$0")" || die "root"
+cd "$(git rev-parse --show-toplevel)" || die "root"
 
 t="$HOME/tools"
 mkdir -pv "$t"

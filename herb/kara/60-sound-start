@@ -1,0 +1,25 @@
+#!/bin/bash
+
+die() { echo "oh noes! $* gone bad" >&2; exit 1; }
+
+if ! jack_lsp &>/dev/null; then
+    jack_control start || die "start jack"
+    timeout 15 sh -c "until jack_lsp &>/dev/null; do sleep 1; done"
+    jack_lsp &>/dev/null || die "jack"
+fi
+
+if ! pgrep alsa_in &>/dev/null; then
+    aplay "$HOME/.config/herbstluftwm/silent3.wav" &
+    sleep 0.5
+    nohup alsa_in -d "cloop" >"$HOME/nohup.alsa_in.out" 2>&1 &
+fi
+if ! pgrep alsa_out &>/dev/null; then
+    nohup alsa_out -d "hw:1,0" >"$HOME/nohup.alsa_out.out" 2>&1 &
+fi
+
+if ! pgrep calfjackhost &>/dev/null; then
+    herbstclient spawn calfjackhost --client rack -s "$HOME/rack.plugs"
+fi
+
+amixer -D "hw:1" sset Master playback 0dB unmute
+nohup /usr/local/bin/patchy -w 1m recall "$HOME/rack.patch" >"$HOME/nohup.patchy.out" 2>&1 &

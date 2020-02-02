@@ -56,6 +56,9 @@ alias hc="herbstclient"
 hash gtar &>/dev/null && alias tar="gtar"
 hash gmake &>/dev/null && alias make="gmake"
 
+win_title(){
+        echo -ne "\033]0;$*\007"
+}
 
 # prompt
 export PS1='$(hermes -p zsh ps1)'

@@ -9,16 +9,17 @@ Xft.rgba: rgb
 Xcursor.theme: Breeze_Purple
 Xcursor.size: 48
 
-rofi.color-normal:    #2d0040, #74d7ec, #2d0040, #00218f, #74d7ec
-rofi.color-urgent:    #2d0040, #ee925d, #2d0040, #00218f, #ee925d
-rofi.color-active:    #2d0040, #ffafc7, #2d0040, #00218f, #ffafc7
-rofi.color-window:    #2d0040, #d97dff, #d97dff
-rofi.font:            Go 36
-rofi.bw:              0
-rofi.line-margin:     0
+rofi.color-normal:    #150015, #74d7ec, #1a001a, #2d0040, #74d7ec
+rofi.color-urgent:    #150015, #ee925d, #1a001a, #2d0040, #ee925d
+rofi.color-active:    #150015, #ffafc7, #1a001a, #2d0040, #ffafc7
+rofi.color-window:    #100010, #dedede, #100010
+rofi.font:            Go Regular 32
+rofi.lines:           10
+rofi.bw:              5
+rofi.line-margin:     10
 rofi.hide-scrollbar:  1
-rofi.separator-style: none
+rofi.separator-style: solid
 rofi.scrollbar-width: 0
-rofi.padding:         4
+rofi.padding:         10
 rofi.terminal:        st
-
+rofi.window-format:   [{w}] {t}

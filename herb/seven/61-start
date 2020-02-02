@@ -1,0 +1,10 @@
+#!/bin/bash
+
+hc() {
+    herbstclient "$@"
+}
+
+hc and , raise_monitor main , focus_monitor main \
+        , compare tags.by-name.kitty.client_count = 0 \
+        , use kitty , spawn st
+

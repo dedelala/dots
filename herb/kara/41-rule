@@ -1,0 +1,8 @@
+#!/bin/bash
+
+hc() {
+    herbstclient "$@"
+}
+
+hc rule class~'calfjackhost' tag=sound
+

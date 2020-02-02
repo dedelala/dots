@@ -1,8 +1,8 @@
 #!/bin/bash
 
-die() { echo "yeah nah: $*" >&2; exit 1; }
+die() { echo "oh noes! $*" >&2; exit 1; }
 
-cd "$(dirname "$0")" || die "root"
+cd "$(git rev-parse --show-toplevel)" || die "root"
 
 c="$HOME/.config"
 mkdir -pv "$c/kak/colors"   || die "kak dir"
