@@ -1,3 +1,9 @@
+[[ -r "/etc/profile" ]] && . "/etc/profile"
+[[ -r "$HOME/.profile" ]] && . "$HOME/.profile"
+
+autoload -U compinit
+compinit
+
 # options
 setopt auto_menu               # use menu completion after two tabs
 setopt auto_pushd              # cd pushes to the dir stack
@@ -34,13 +40,11 @@ export CDPATH=$HOME/.cdp/.p
 alias grep="grep -s"
 alias tree="tree -aI 'vendor|.git'"
 alias ls="ls -FGh"
-alias diff="diff --color=always"
 alias f="grep -Hsn"
 alias g="git"
 alias a="git add"
 alias b="git branch"
 alias x="git checkout"
-alias C="git commit"
 alias c="git commit -m"
 alias d="PAGER= git diff"
 alias l="git log --graph"
@@ -48,18 +52,28 @@ alias P="git push"
 alias p="git pull"
 alias s="git status"
 alias rs="git reset"
-alias xi="xbps-install -S"
-alias xq="xbps-query -Rs"
-alias hc="herbstclient"
+
 
 # conditional aliases
-hash gtar &>/dev/null && alias tar="gtar"
-hash gmake &>/dev/null && alias make="gmake"
+calias() {
+    if ! hash "$1" &>/dev/null; then
+        return
+    fi
+    alias $2="$3"
+}
+calias xbps-install xi "xbps-install -S"
+calias xbps-query xq "xbps-query -Rs"
+calias herbstclient hc "herbstclient"
+calias terraform tp "terraform init && terraform plan | grep -Pv '\"(.*)\" => \"\1\"'"
+calias gtar tar "gtar"
+calias gmake make "gmake"
 
+
+# completions
+if hash kubectl &>/dev/null; then
+    . <(kubectl completion zsh)
+fi
 
 # prompt
 export PS1='$(hermes -p zsh ps1)'
-export RPS1='$(hermes -p zsh rps1)'
 export PS2='$(hermes -p zsh ps2)'
-
-cdp cd || cdp be lala

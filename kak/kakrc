@@ -27,6 +27,7 @@ hook global WinCreate .* %{
     map window user -docstring "make" m :make<ret>:buffer\ *make*<ret>
     map window user -docstring "split" <space> :split<ret>
     map window user -docstring "shell" <tab> :shell<ret>
+    map window user -docstring "find conflicts" X :grep\ -RE\ '^<lt>{7}'\ .<ret>
     map window user -docstring "next conflict" x /^<lt>{7}<ret>?^<gt>{7}<ret>Gl
     map window user -docstring "resolve keep a" <lt> s^<lt>{7}<ret>Xd/^={7}<ret>?^<gt>{7}<ret>Xd
     map window user -docstring "resolve keep b" <gt> s^<lt>{7}<ret>?^={7}<ret>Xd/^<gt>{7}<ret>Xd
@@ -104,7 +105,7 @@ hook global WinSetOption filetype=hcl %{
     set window tabstop 2
     set window formatcmd 'terraform fmt -'
     hook buffer BufWritePre .* format
-    hook buffer BufWritePost .* tf-validate
+    # hook buffer BufWritePost .* tf-validate
 }
 
 hook global WinSetOption filetype=yaml %{
