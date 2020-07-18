@@ -6,9 +6,6 @@ hc() {
 
 hc rule hook=new_split_maybe
 
-# unlock, just to be sure
-hc unlock
-
 killall -9 herbstclient
 
 winids=""

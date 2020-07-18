@@ -13,7 +13,7 @@ hc keybind $Mod-Shift-r    reload
 hc keybind $Mod-Shift-x    remove
 hc keybind $Mod-Shift-Return floating toggle
 hc keybind $Mod-Return     fullscreen toggle
-hc keybind $Mod-p          pseudotile toggle
+# hc keybind $Mod-p          pseudotile toggle
 hc keybind $Mod-z          cycle
 hc keybind $Mod-i          jumpto urgent
 

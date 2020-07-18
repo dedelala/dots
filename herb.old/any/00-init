@@ -11,3 +11,4 @@ xsetroot -solid '#000'
 hc detect_monitors
 hc rename_monitor 0 main
 
+hc set default_frame_layout 2

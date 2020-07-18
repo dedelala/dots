@@ -1,0 +1,21 @@
+#!/bin/bash
+
+hc() {
+    herbstclient "$@"
+}
+
+# keybindings
+Mod=Mod4
+c=$HOME/.config/herbstluftwm
+
+x="$c/brightness.sh"
+hc keybind XF86MonBrightnessUp spawn "$x" +
+hc keybind XF86MonBrightnessDown spawn "$x" -
+
+x="$c/sound-ctl.sh"
+hc keybind $Mod-XF86AudioMute spawn "$x" card
+hc keybind XF86AudioMute spawn "$x" set Playback toggle-mute
+hc keybind XF86AudioRaiseVolume spawn "$x" set Playback 3dB+
+hc keybind XF86AudioLowerVolume spawn "$x" set Playback 3dB-
+
+hc keybind $Mod-p spawn "$c/display.sh"

@@ -1,4 +1,13 @@
-# options
+[[ -r "$HOME/.profile" ]] && . "$HOME/.profile"
+
+if hash tty &>/dev/null && [[ $(tty) == /dev/tty1 ]]; then
+        startx
+        exit
+fi
+
+autoload -U compinit
+compinit
+
 setopt auto_menu               # use menu completion after two tabs
 setopt auto_pushd              # cd pushes to the dir stack
 setopt chase_links             # cd resolves symlinks
@@ -19,23 +28,17 @@ setopt pipe_fail               # exit code is the left-most non-zero
 setopt prompt_subst            # do expansions on PS
 setopt pushd_ignore_dups       # dir stack ignore dups
 setopt pushd_minus             # +/- swapped on dir stack
-setopt rc_expand_param         # gooder string/array exansions
+setopt rc_expand_param         # gooder string/array expansions
 
-
-# exports
 export HISTSIZE=10000
 export SAVEHIST=10000
 export HISTFILE=$HOME/.zsh_history
 export WORDCHARS='*?_-.[]~;!#$%^(){}<>' # characters considered to be part of a word (zle)
-export CDPATH=$HOME/.cdp/.p
 
-
-# aliases
 alias grep="grep -s"
 alias tree="tree -aI 'vendor|.git'"
 alias ls="ls -FGh"
 alias diff="diff --color=always"
-alias f="grep -Hsn"
 alias g="git"
 alias a="git add"
 alias b="git branch"
@@ -47,22 +50,16 @@ alias l="git log --graph"
 alias P="git push"
 alias p="git pull"
 alias s="git status"
-alias rs="git reset"
-alias xi="sudo xbps-install -S"
-alias xq="xbps-query -Rs"
 alias hc="herbstclient"
-
-# conditional aliases
-hash gtar &>/dev/null && alias tar="gtar"
-hash gmake &>/dev/null && alias make="gmake"
 
 win_title(){
         echo -ne "\033]0;$*\007"
 }
 
-# prompt
-export PS1='$(hermes -p zsh ps1)'
-export RPS1='$(hermes -p zsh rps1)'
-export PS2='$(hermes -p zsh ps2)'
+unset psvar
+if [[ -n $SSH_TTY ]]; then
+        psvar[1]=1
+fi
+export PS1="%(0?,,%F{1}?%?%f)%(1j,%F{6}&%j%f,)%(1v,%m,)%{$(win_title "%(1v,%m:,)%~")>%1G%} "
+export PS2="^ "
 
-cdp is &>/dev/null || cdp be lala

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+hc() {
+    herbstclient "$@"
+}
+
+hc add kitty
+hc merge_tag default kitty
+hc add fox
+

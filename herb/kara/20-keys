@@ -1,0 +1,67 @@
+#!/bin/bash
+
+hc() {
+    herbstclient "$@"
+}
+
+# keybindings
+hc keyunbind --all
+Mod=Mod4
+
+hc keybind $Mod-Shift-q    quit
+hc keybind $Mod-Shift-r    reload
+hc keybind $Mod-Shift-x    remove
+hc keybind $Mod-Shift-Return floating toggle
+hc keybind $Mod-Return     fullscreen toggle
+# hc keybind $Mod-p          pseudotile toggle
+hc keybind $Mod-z          cycle
+hc keybind $Mod-i          jumpto urgent
+
+hc keybind $Mod-x and , compare tags.focus.curframe_wcount gt 1 , split explode
+hc keybind $Mod-c and , close_and_remove , compare tags.focus.client_count = 0 \
+        , use kitty
+
+hc keybind $Mod-w focus u
+hc keybind $Mod-a focus l
+hc keybind $Mod-s focus d
+hc keybind $Mod-d focus r
+
+hc keybind $Mod-Shift-w resize u +0.02
+hc keybind $Mod-Shift-a resize l +0.02
+hc keybind $Mod-Shift-s resize d +0.02
+hc keybind $Mod-Shift-d resize r +0.02
+
+hc keybind $Mod-Tab or \
+        ,, and \
+                , compare tags.focus.name = kitty \
+                , spawn st \
+        ,, and \
+                , compare tags.focus.name \!= kitty \
+                , use kitty \
+                , compare tags.focus.client_count = 0 \
+                , spawn st
+
+hc keybind $Mod-f and \
+        , use fox , compare tags.focus.client_count = 0 \
+        , spawn env MOZ_USE_XINPUT2=1 apulse firefox
+
+tc=$(hc attr tags.count)
+i=2
+while [[ $i -lt $tc ]]; do
+        hc keybind $Mod-$(( i - 1 )) use_index $i
+        i=$(( i + 1 ))
+done
+
+c=$HOME/.config/herbstluftwm
+
+hc keybind $Mod-space spawn rofi -modi window -show window
+hc keybind $Mod-Shift-space spawn "$c/run.sh"
+
+hc keybind Print spawn "$c/print.sh"
+
+# mouse
+hc mouseunbind --all
+hc mousebind $Mod-Button1 move
+hc mousebind $Mod-Button2 zoom
+hc mousebind $Mod-Button3 resize
+

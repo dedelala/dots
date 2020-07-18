@@ -4,6 +4,6 @@ hc() {
     herbstclient "$@"
 }
 
-hc add rack
-hc add mixer
+# unlock, just to be sure
+hc unlock
 
