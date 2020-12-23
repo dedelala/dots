@@ -8,7 +8,6 @@
 # +run starbound  "$HOME/play/starbound/start.sh"
 # +run stardew    "$HOME/play/stardew/start.sh"
 
-l="$HOME/.config/herbstluftwm/run.list"
 awk '/^# \+run /{print $3}' "$0" | rofi -dmenu -p "choose fighter" | while read -r v; do
         x=$(awk "/^# \+run $v /{print \$4}" "$0" | envsubst)
         if ! [[ -x $x ]]; then
