@@ -7,15 +7,11 @@ pnk="rgb:ffafc7"
 prp="rgb:d97dff"
 wht="rgb:fbf9f5"
 red="rgb:ff6666"
-
-#dblu="rgb:00323d"
 mblu="rgb:00218F"
 dblu="rgb:000F40"
-
-#mprp="rgb:5a0080"
 dprp="rgb:2d0040"
 
-while read -r f v; do [[ -n $f ]] && echo "face global $f $v"; done <<🐈
+xargs -I '{}' echo "face global {}" <<!
 value       $orn
 type        $prp
 identifier  $prp
@@ -68,4 +64,4 @@ StatusLineInfo   $pnk
 StatusLineValue  $orn
 StatusCursor     $dprp,$pnk
 Prompt           $wht
-🐈
+!

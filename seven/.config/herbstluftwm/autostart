@@ -91,34 +91,15 @@ while [[ $i -lt $tc ]]; do
         i=$(( i + 1 ))
 done
 
-c=$HOME/.config/herbstluftwm
-
 hc keybind $Mod-space spawn rofi -modi window -show window
-hc keybind $Mod-Shift-space spawn "$c/run.sh"
 
-hc keybind Print spawn "$c/print.sh"
+grep -HEr "^# \+hc .+" $HOME/bin | Mod=$Mod envsubst | sed 's/:# +hc / /g' \
+| while read -r cmd key arg; do hc keybind "$key" spawn "$cmd" "$arg"; done
 
-# mouse
 hc mouseunbind --all
 hc mousebind $Mod-Button1 move
 hc mousebind $Mod-Button2 zoom
 hc mousebind $Mod-Button3 resize
-
-# keybindings
-Mod=Mod4
-c=$HOME/.config/herbstluftwm
-
-x="$c/brightness.sh"
-hc keybind XF86MonBrightnessUp spawn "$x" +
-hc keybind XF86MonBrightnessDown spawn "$x" -
-
-x="$c/sound-ctl.sh"
-hc keybind $Mod-XF86AudioMute spawn "$x" card
-hc keybind XF86AudioMute spawn "$x" set Playback toggle-mute
-hc keybind XF86AudioRaiseVolume spawn "$x" set Playback 3dB+
-hc keybind XF86AudioLowerVolume spawn "$x" set Playback 3dB-
-
-hc keybind $Mod-p spawn "$c/display.sh"
 
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
@@ -152,35 +133,15 @@ hc set smart_frame_surroundings 1
 hc set mouse_recenter_gap 0
 hc set tree_style '╾│ ├└╼─┐'
 
-# rules
 hc unrule -F
-#hc rule class=XTerm tag=3 # move all xterms to tag 3
-hc rule focus=on # normally focus new clients
-#hc rule focus=off # normally do not focus new clients
-# give focus to most common terminals
-#hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
+hc rule focus=on
 hc rule class~'Firefox' tag=web
 hc rule class~'google-chrome' tag=web
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
-# unlock, just to be sure
 hc unlock
-
-# hc -i | while read -r event winid _; do
-#         [[ $event != reload ]] || break
-#         [[ $event == focus_changed ]] || continue
-#         [[ $winid == 0x0 ]] || continue
-#         sleep 0.1
-#         hc and , compare tags.focus.curframe_wcount = 0 , remove
-#         sleep 0.25
-#         hc and \
-#                 , compare tags.focus.client_count = 0 \
-#                 , use tty \
-#                 , compare tags.focus.client_count = 0 \
-#                 , spawn st
-# done
 
 killall -9 hermes
 hc spawn hermes bar

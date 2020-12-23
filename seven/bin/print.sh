@@ -1,4 +1,5 @@
 #!/bin/bash
+# +hc Print
 
 sleep 0.2
 
