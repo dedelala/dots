@@ -14,8 +14,7 @@ hc pad main 48
 
 hc set default_frame_layout 2
 
-hc add tty
-hc merge_tag default tty
+hc rename default tty
 hc add web
 
 # keybindings

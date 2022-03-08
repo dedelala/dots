@@ -1,0 +1,5 @@
+configuration {
+    terminal: "st";
+    window-format: "[{w}] {t}";
+}
+@theme "purple.rasi"

@@ -1,0 +1,17 @@
+pcm.flip {
+    type plug
+    slave.pcm {
+        type bluealsa
+        device "B8:F6:53:91:24:1C"
+        profile "a2dp"
+    }
+    hint {
+        show on
+        description "JBL Flip 5"
+    }
+}
+
+pcm.!default {
+    type plug
+    slave.pcm "flip"
+}

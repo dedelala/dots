@@ -2,11 +2,11 @@
 # +hc $Mod-Shift-space
 
 # +run gimp       /bin/gimp
-# +run factorio   "$HOME/play/factorio/start.sh"
-# +run ksp        "$HOME/play/ksp/KSP.x86_64"
-# +run minecraft  "$HOME/play/minecraft-launcher/minecraft-launcher"
-# +run starbound  "$HOME/play/starbound/start.sh"
-# +run stardew    "$HOME/play/stardew/start.sh"
+# +run factorio   $HOME/play/factorio/start.sh
+# +run ksp        $HOME/play/ksp/KSP.x86_64
+# +run minecraft  $HOME/play/minecraft-launcher/minecraft-launcher
+# +run starbound  $HOME/play/starbound/start.sh
+# +run stardew    $HOME/play/stardew/start.sh
 
 awk '/^# \+run /{print $3}' "$0" | rofi -dmenu -p "choose fighter" | while read -r v; do
         x=$(awk "/^# \+run $v /{print \$4}" "$0" | envsubst)

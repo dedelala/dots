@@ -53,13 +53,23 @@ alias s="git status"
 alias hc="herbstclient"
 
 win_title(){
-        echo -ne "\033]0;$*\007"
+        echo -ne "\033]0;$WIN_TITLE_PREFIX ${PWD/$HOME/~} $*\007"
 }
 
+preexec(){
+        win_title "$1"
+}
+
+precmd(){
+        win_title
+}
+
+WIN_TITLE_PREFIX="${TTY#/dev/}"
 unset psvar
 if [[ -n $SSH_TTY ]]; then
+        WIN_TITLE_PREFIX="$HOST $WIN_TITLE_PREFIX"
         psvar[1]=1
 fi
-export PS1="%(0?,,%F{1}?%?%f)%(1j,%F{6}&%j%f,)%(1v,%m,)%{$(win_title "%(1v,%m:,)%~")>%1G%} "
+export PS1="%(0?,,%F{1}?%?%f)%(1j,%F{6}&%j%f,)%(1v,%m,)> "
 export PS2="^ "
 

@@ -7,7 +7,7 @@ set global tabstop 8
 set global aligntab false
 set global scrolloff 4,4
 
-set global termcmd "st -e sh -c"
+#set global termcmd "st -e sh -c"
 
 hook global WinCreate .* %{
     addhl window/ show-matching
@@ -64,9 +64,9 @@ hook global KakBegin .* %sh{
 
 hook global BufWritePost .* git\ show-diff
 
+eval %sh{kak-lsp --kakoune -s $kak_session}
 hook global WinSetOption filetype=go %{
-    eval %sh{kak-lsp --kakoune -s $kak_session}
-    lsp-enable
+    lsp-enable-window
     map global normal . :enter-user-mode\ lsp<ret>
     set window makecmd 'go build'
     set window disabled_hooks .*-indent

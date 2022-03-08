@@ -7,8 +7,6 @@ set global tabstop 8
 set global aligntab false
 set global scrolloff 4,4
 
-set global termcmd "st -e sh -c"
-
 hook global WinCreate .* %{
     addhl window/ show-matching
     addhl window/ number-lines -relative -hlcursor -separator "  "
@@ -64,15 +62,14 @@ hook global KakBegin .* %sh{
 
 hook global BufWritePost .* git\ show-diff
 
+eval %sh{kak-lsp --kakoune -s $kak_session}
 hook global WinSetOption filetype=go %{
-    eval %sh{kak-lsp --kakoune -s $kak_session}
-    lsp-enable
+    lsp-enable-window
     map global normal . :enter-user-mode\ lsp<ret>
     set window makecmd 'go build'
     set window disabled_hooks .*-indent
     hook buffer BufWritePre .* %{
-        go-format -use-goimports
-        lint
+        lsp-formatting-sync
     }
 }
 
@@ -88,4 +85,9 @@ hook global WinSetOption filetype=yaml %{
     set window lintcmd 'yamllint -d ~/.yamllint.yml -f parsable "$kak_buffile"'
     lint-enable
     hook buffer BufWritePost .* lint
+}
+
+hook global WinSetOption filetype=html %{
+    set window indentwidth 4
+    set window tabstop 4
 }
