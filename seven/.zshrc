@@ -35,22 +35,11 @@ export SAVEHIST=10000
 export HISTFILE=$HOME/.zsh_history
 export WORDCHARS='*?_-.[]~;!#$%^(){}<>' # characters considered to be part of a word (zle)
 
-alias grep="grep -s"
-alias tree="tree -aI 'vendor|.git'"
-alias ls="ls -FGh"
-alias diff="diff --color=always"
-alias g="git"
-alias a="git add"
-alias b="git branch"
-alias x="git checkout"
-alias C="git commit"
-alias c="git commit -m"
-alias d="PAGER= git diff"
-alias l="git log --graph"
-alias P="git push"
-alias p="git pull"
-alias s="git status"
 alias hc="herbstclient"
+
+k() {
+        kak -c 7 "$@" || kak -s 7 "$@"
+}
 
 win_title(){
         echo -ne "\033]0;$WIN_TITLE_PREFIX ${PWD/$HOME/~} $*\007"
@@ -70,6 +59,6 @@ if [[ -n $SSH_TTY ]]; then
         WIN_TITLE_PREFIX="$HOST $WIN_TITLE_PREFIX"
         psvar[1]=1
 fi
-export PS1="%(0?,,%F{1}?%?%f)%(1j,%F{6}&%j%f,)%(1v,%m,)> "
-export PS2="^ "
+export PS1="%K{3}%F{0}7%f%k%(0?,,%F{1}?%?%f)%(1j,%F{6}&%j%f,)%(1v,%m,)%F{3}>%f "
+export PS2="%F{3}^%f "
 

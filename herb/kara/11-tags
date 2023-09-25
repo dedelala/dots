@@ -1,9 +1,0 @@
-#!/bin/bash
-
-hc() {
-    herbstclient "$@"
-}
-
-hc add rack
-hc add mixer
-

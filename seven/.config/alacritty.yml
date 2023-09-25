@@ -1,7 +1,27 @@
-font:
+colors:
+  primary:
+    background: '#000000'
+    foreground: '#cccccc'
+
   normal:
-    family: GoMono Nerd Font
-  size: 16.0
+   black:   '#000000'
+   red:     '#de724d'
+   green:   '#24d7ac'
+   yellow:  '#de7200'
+   blue:    '#7490ee'
+   magenta: '#ef9fc7'
+   cyan:    '#54b7dc'
+   white:   '#cccccc'
+
+  bright:
+   black:   '#555555'
+   red:     '#fe926d'
+   green:   '#44f7cc'
+   yellow:  '#fe9200'
+   blue:    '#94b0ff'
+   magenta: '#ffafd7'
+   cyan:    '#74d7fc'
+   white:   '#eeeeee'
 
 key_bindings:
   - { key: N, mods: Command, action: SpawnNewInstance }

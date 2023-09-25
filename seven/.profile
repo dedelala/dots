@@ -1,5 +1,4 @@
-export GOPATH="$HOME/go"
-export PATH="$GOPATH/bin:/usr/local/opt/go/bin:$PATH:/usr/local/bin"
+export PATH="$HOME/go/bin:/usr/local/go/bin:$PATH"
 export EDITOR=kak
-export TERMINAL=st
+export TERMINAL=alacritty
 export DOCKER_ID_USER="dedelala"

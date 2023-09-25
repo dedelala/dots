@@ -1,7 +1,0 @@
-#!/bin/bash
-
-for x in "$HOME"/.config/herbstluftwm/[0-9]*; do
-        if [[ -x $x ]]; then
-                "$x"
-        fi
-done
