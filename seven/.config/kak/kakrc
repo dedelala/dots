@@ -34,6 +34,8 @@ hook global WinCreate .* %{
     map window user -docstring "resolve keep b" <gt> s^<lt>{7}<ret>?^={7}<ret>Xd/^<gt>{7}<ret>Xd
 }
 
+hook global WinCreate .*\.refs %{ set buffer filetype grep }
+
 hook global BufWritePost .* git\ show-diff
 
 eval %sh{kak-lsp --kakoune -s $kak_session}
