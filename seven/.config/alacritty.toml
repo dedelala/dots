@@ -20,5 +20,8 @@ yellow = "#de7200"
 
 [colors.primary]
 background = "#000000"
-foreground = "#cccccc"
+foreground = "#ffffff"
+
+#[font]
+#normal = { style = "Bold" }
 
