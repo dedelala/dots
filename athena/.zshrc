@@ -38,7 +38,7 @@ export WORDCHARS='*?_-.[]~;!#$%^(){}<>' # characters considered to be part of a 
 alias hc="herbstclient"
 
 k() {
-        kak -c 7 "$@" || kak -s 8 "$@"
+        kak -c 8 "$@" || kak -s 8 "$@"
 }
 
 win_title(){
