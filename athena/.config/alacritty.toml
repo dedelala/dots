@@ -29,3 +29,5 @@ yellow = "#de7200"
 background = "#000000"
 foreground = "#cccccc"
 
+[window]
+option_as_alt = "OnlyLeft"
