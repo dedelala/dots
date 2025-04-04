@@ -1,0 +1,63 @@
+colorscheme dedelala
+
+set global ui_options terminal_enable_mouse=false terminal_assistant=cat terminal_set_title=false
+
+set global indentwidth 8
+set global tabstop 8
+set global aligntab false
+set global scrolloff 4,4
+
+hook global WinCreate .* %{
+    addhl window/ show-matching
+    # addhl window/ number-lines -relative -hlcursor -separator "  "
+    addhl window/ column 81 white,rgb:100020
+    addhl window/ dynregex \h+$ 0:black,rgb:545453
+    addhl window/ dynregex ^\t* 0:black,rgb:100020
+    addhl window/ dynregex ^\ * 0:black,rgb:000030
+    addhl window/ dynregex \ +\t+\ * 0:black,rgb:a21313
+    addhl window/ dynregex \t+\ +\t* 0:black,rgb:a21313
+    map window user -docstring "<--" , :buffer-previous<ret>
+    map window user -docstring "-->" . :buffer-next<ret>
+    map window user -docstring "show blame" b :git\ blame<ret>
+    map window user -docstring "hide blame" B :git\ hide-blame<ret>
+    map window user -docstring "show line numbers" n :addhl\ window/number-lines\ number-lines\ -relative\ -hlcursor\ -separator\ "|"<ret>
+    map window user -docstring "hide line numbers" N :rmhl\ window/number-lines<ret>
+    map window user -docstring "jump here" j :set\ global\ jumpclient\ %val{client}<ret>
+    map window user -docstring "tools here" t :set\ global\ toolsclient\ %val{client}<ret>
+    map window user -docstring "comment" c :comment-line<ret>
+    map window user -docstring "lint" l :lint<ret>:buffer\ *lint-output*<ret>
+    map window user -docstring "make" m :make<ret>:buffer\ *make*<ret>
+    map window user -docstring "split" <space> :split<ret>
+    map window user -docstring "shell" <tab> :shell<ret>
+    map window user -docstring "next conflict" x /^<lt>{7}<ret>?^<gt>{7}<ret>Gl
+    map window user -docstring "resolve keep a" <lt> s^<lt>{7}<ret>Xd/^={7}<ret>?^<gt>{7}<ret>Xd
+    map window user -docstring "resolve keep b" <gt> s^<lt>{7}<ret>?^={7}<ret>Xd/^<gt>{7}<ret>Xd
+}
+
+hook global BufWritePost .* git\ show-diff
+
+eval %sh{kak-lsp --kakoune -s $kak_session}
+hook global WinSetOption filetype=go %{
+    lsp-enable-window
+    map window normal . :enter-user-mode\ lsp<ret>
+    set window makecmd 'go build'
+    set window disabled_hooks .*-indent
+    hook buffer BufWritePre .* %{
+        try %{lsp-code-action-sync 'Organize Imports'} catch nop
+        lsp-formatting-sync
+    }
+}
+
+hook global WinSetOption filetype=sh %{
+    set window lintcmd 'shellcheck -fgcc -Cnever'
+    lint-enable
+    hook buffer BufWritePost .* lint
+}
+
+hook global WinSetOption filetype=yaml %{
+    set window indentwidth 2
+    set window tabstop 2
+    set window lintcmd 'yamllint -d ~/.yamllint.yml -f parsable "$kak_buffile"'
+    lint-enable
+    hook buffer BufWritePost .* lint
+}
